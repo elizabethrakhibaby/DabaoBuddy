@@ -58,7 +58,7 @@ Testing Instructions:
 2. Create a folder 
 3. Open a text editor (e.g VSC)
 4. Open terminal on text editor
-5. Change working directory to folder created in step 2 and change directory to 
+5. Change working directory to folder created in step 2 
 6. Type in terminal: git clone https://github.com/elizabethrakhibaby/DabaoBuddy.git
 7. Type in terminal: cd DabaoBuddy
 8. Type in terminal: npm install
