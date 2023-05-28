@@ -6,7 +6,7 @@ const ProfileScreen = function() {
 
     return (
         <View>
-        <Text>This is the Profile Screen</Text>
+        <Text>This is the Profile Screen. Jo and Eli</Text>
         </View>
     );
 };
