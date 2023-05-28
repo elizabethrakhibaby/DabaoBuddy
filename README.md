@@ -65,6 +65,6 @@ Testing Instructions:
 9. Type in terminal: npm start
 10. Step 9 will cause a QR code to be generated inside the terminal
 11. Download “Expo Go” app on your personal mobile device
-12. Scan the QR code (Ensure that wifi connected on both devices are the same)
+12. Scan the QR code (Ensure that wifi connected on both computer and mobile device are the same)
 13. Open “Expo Go” app to try out our application
 
