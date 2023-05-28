@@ -1,3 +1,4 @@
+
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
@@ -9,6 +10,10 @@ import { alignContent, flex, flexDirection, width } from 'styled-system';
 
 function Signup() {
     const navigation = useNavigation();
+    const handleRegistration = () => {
+      navigation.navigate("Login");
+    };
+
   return (
     <View style={styles.container}>
       <View style={styles.Middle}>
@@ -145,8 +150,8 @@ function Signup() {
 
       {/* Button */}
       <View style={styles.buttonStyle}>
-        <Button style={styles.buttonDesign}>
-            REGISTER NOW
+        <Button style={styles.buttonDesign} onPress = {handleRegistration}>
+            REGISTER NOW 
         </Button>
       </View>
 
@@ -328,3 +333,4 @@ const styles = StyleSheet.create({
     justifyContent:'space-around'
   },
 });
+
