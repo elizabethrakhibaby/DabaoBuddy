@@ -63,7 +63,8 @@ Testing Instructions:
    b. Wait for installation to be complete
    c. Type in terminal: `git clone https://github.com/elizabethrakhibaby/DabaoBuddy.git`
 6. Type in terminal: `cd DabaoBuddy`
-7. Type in terminal: `npm install`
+7. To view all the files, type in terminal: `code .`
+8. Type in terminal: `npm install`
    a. In the case that you are faced with this error message: “zsh: command not found: npm”, you need to install Node.js before           proceeding.
    b. Visit the official Node.js website: https://nodejs.org  and install LTS version
    c. Download the appropriate installer for your operating system. Run the installer and follow the instructions to complete the         installation.
