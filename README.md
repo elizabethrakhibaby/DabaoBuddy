@@ -1,6 +1,6 @@
 # DabaoBuddy
 
-Level of Achievement: Apollo 11
+#Level of Achievement: Apollo 11
 
 Project Scope:
 Establish a  takeaway system that mutually benefits time-pressed NUS students who require quick meals and NUS students who aim for greater financial independence.
