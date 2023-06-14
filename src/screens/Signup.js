@@ -1,20 +1,47 @@
 
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { Input, NativeBaseProvider, Button, Icon, Box, Image, AspectRatio } from 'native-base';
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { alignContent, flex, flexDirection, width } from 'styled-system';
+import { auth } from './firebase';
+
 
 
 function Signup() {
     const navigation = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    
+    // const handleRegistration = () => {
+    //   navigation.navigate("Login");
+    // };
+
     const handleRegistration = () => {
-      navigation.navigate("Login");
+      if (password === confirmPassword) {
+        auth
+          .createUserWithEmailAndPassword(email, password)
+          .then(userCredential => {
+            const user = userCredential.user;
+            console.log('Signup successful');
+            // Store additional user details in Firestore
+            firestore.collection('users').doc(user.uid).set({
+              email: user.email
+            });
+          })
+          .catch(error => {
+            console.log('Signup failed:', error.message);
+          });
+      } else {
+        console.log('Passwords do not match');
+      }
+      navigation.navigate('Login');
     };
 
   return (
+    //First 2 lines
     <View style={styles.container}>
       <View style={styles.Middle}>
         <Text style={styles.LoginText}>Signup</Text>
@@ -26,235 +53,39 @@ function Signup() {
 
       {/* Username or Email Input Field */}
       <View style={styles.buttonStyle}>
-        
-        <View style={styles.emailInput}>
-          <Input
-            InputLeftElement={
-              <Icon
-                as={<FontAwesome5 name="user-secret" />}
-                size="sm"
-                m={2}
-                _light={{
-                  color: "black",
-                }}
-                _dark={{
-                  color: "gray.300",
-                }}
-              />
-            }
-            variant="outline"
-            placeholder="Username"
-            _light={{
-              placeholderTextColor: "blueGray.400",
-            }}
-            _dark={{
-              placeholderTextColor: "blueGray.50",
-            }}
-
+      <TextInput
+          placeholder = "Email"
+          value={email}
+          onChangeText={text=> setEmail(text)}
           />
-        </View>
-      </View>
-
-      {/* Username or Email Input Field */}
-      <View style={styles.buttonStyleX}>
-        
-        <View style={styles.emailInput}>
-          <Input
-            InputLeftElement={
-              <Icon
-                as={<MaterialCommunityIcons name="email" />}
-                size="sm"
-                m={2}
-                _light={{
-                  color: "black",
-                }}
-                _dark={{
-                  color: "gray.300",
-                }}
-              />
-            }
-            variant="outline"
-            placeholder="Email"
-            _light={{
-              placeholderTextColor: "blueGray.400",
-            }}
-            _dark={{
-              placeholderTextColor: "blueGray.50",
-            }}
-
-          />
-        </View>
       </View>
 
       {/* Password Input Field */}
       <View style={styles.buttonStyleX}>
-        
-        <View style={styles.emailInput}>
-          <Input
-            InputLeftElement={
-              <Icon
-                as={<FontAwesome5 name="key" />}
-                size="sm"
-                m={2}
-                _light={{
-                  color: "black",
-                }}
-                _dark={{
-                  color: "gray.300",
-                }}
-              />
-            }
-            variant="outline"
-            secureTextEntry={true}
-            placeholder="Password"
-            _light={{
-              placeholderTextColor: "blueGray.400",
-            }}
-            _dark={{
-              placeholderTextColor: "blueGray.50",
-            }}
-          />
-        </View>
+      <TextInput
+          placeholder="Password"
+          value={password}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry
+        />
       </View>
 
-      {/* Password Input Field */}
       <View style={styles.buttonStyleX}>
-        
-        <View style={styles.emailInput}>
-          <Input
-            InputLeftElement={
-              <Icon
-                as={<FontAwesome5 name="key" />}
-                size="sm"
-                m={2}
-                _light={{
-                  color: "black",
-                }}
-                _dark={{
-                  color: "gray.300",
-                }}
-              />
-            }
-            variant="outline"
-            secureTextEntry={true}
-            placeholder="Confirm Password"
-            _light={{
-              placeholderTextColor: "blueGray.400",
-            }}
-            _dark={{
-              placeholderTextColor: "blueGray.50",
-            }}
-          />
-        </View>
+      <TextInput
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChangeText={text => setConfirmPassword(text)}
+          secureTextEntry
+        />
       </View>
 
-      {/* Button */}
-      <View style={styles.buttonStyle}>
-        <Button style={styles.buttonDesign} onPress = {handleRegistration}>
-            REGISTER NOW 
-        </Button>
+       {/* Signup Button */}
+       <View style={styles.buttonStyle}>
+        <Button style={styles.buttonDesign} onPress={handleRegistration}>
+      SIGN UP
+    </Button>
       </View>
 
-      {/* Line */}
-      <View style={styles.lineStyle}>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        <View>
-          <Text style={{width: 50, textAlign: 'center'}}>Or</Text>
-        </View>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-      </View>
-
-      {/* Box */}
-      <View style={styles.boxStyle}>
-      <Box 
-        onPress={() => navigation.navigate("#")}  // for navigation
-        style={{height:80, width:80}} 
-        shadow={3}
-        _light={{
-          backgroundColor: "gray.50",
-        }}
-        _dark={{
-          backgroundColor: "gray.700",
-        }}
-      >
-        <AspectRatio ratio={1 / 1}>
-          <Image
-            roundedTop="lg"
-            source={{
-              uri: "https://www.transparentpng.com/thumb/google-logo/colorful-google-logo-transparent-clipart-download-u3DWLj.png",
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-      </Box>
-      <Box 
-        onPress={() => navigation.navigate("#")}  // for navigation
-        style={styles.imageStyle}
-        shadow={3}
-        _light={{
-          backgroundColor: "gray.50",
-        }}
-        _dark={{
-          backgroundColor: "gray.700",
-        }}
-      >
-        <AspectRatio ratio={1 / 1}>
-          <Image
-            
-            roundedTop="lg"
-            source={{
-              uri: "https://www.transparentpng.com/thumb/facebook-logo-png/photo-facebook-logo-png-hd-25.png",
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-      </Box>
-      <Box 
-        onPress={() => navigation.navigate("#")}  // for navigation
-        style={styles.imageStyle}
-        shadow={3}
-        _light={{
-          backgroundColor: "gray.50",
-        }}
-        _dark={{
-          backgroundColor: "gray.700",
-        }}
-      >
-        <AspectRatio ratio={1 / 1}>
-          <Image
-            
-            roundedTop="lg"
-            source={{
-              uri: "https://www.transparentpng.com/thumb/twitter/bird-twitter-socialmedia-icons-png-5.png",
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-      </Box>
-      <Box 
-        onPress={() => navigation.navigate("#")}  // for navigation
-        style={styles.imageStyle}
-        shadow={3}
-        _light={{
-          backgroundColor: "gray.50",
-        }}
-        _dark={{
-          backgroundColor: "gray.700",
-        }}
-      >
-        <AspectRatio ratio={1 / 1}>
-          <Image
-            
-            roundedTop="lg"
-            source={{
-              uri: "https://www.transparentpng.com/thumb/apple-logo/RRgURB-apple-logo-clipart-hd.png",
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-      </Box>
-      </View>
-      <StatusBar style="auto" />
     </View>
   );
 }

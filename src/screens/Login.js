@@ -1,21 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { Input, NativeBaseProvider, Button, Icon, Box, Image, AspectRatio } from 'native-base';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { alignContent, flex, flexDirection, width } from 'styled-system';
+import { auth } from './firebase';
 //import HomeScreen from './HomeScreen';
 
 function Login() {
-    const navigation = useNavigation();
-    const handleLogin = () => {
-      //Note: Authentication handling has not been coded out yet!
-        navigation.navigate("HomeScreen");
-      };
+  const navigation = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+
+const handleLogin = () => {
+  auth
+    .signInWithEmailAndPassword(email, password)
+    .then(userCredential => {
+      const user = userCredential.user;
+      console.log('Login successful', user.email);
+      navigation.navigate("HomeScreen");
+      // Proceed to the next screen or handle the authentication success
+    })
+    .catch(error => {
+      console.log('Login failed:', error.message);
+      alert('Login failed. Please check your credentials.');
+    });
+};
+
+
 
   return (
     <View style={styles.container}>
+
+      {/* first two lines */}
       <View style={styles.Middle}>
         <Text style={styles.LoginText}>Login</Text>
       </View>
@@ -25,176 +43,32 @@ function Login() {
       </View>
 
       {/* Username or Email Input Field */}
-      <View style={styles.buttonStyle}>
-        
-        <View style={styles.emailInput}>
-          <Input
-            InputLeftElement={
-              <Icon
-                as={<FontAwesome5 name="user-secret" />}
-                size="sm"
-                m={2}
-                _light={{
-                  color: "black",
-                }}
-                _dark={{
-                  color: "gray.300",
-                }}
-              />
-            }
-            variant="outline"
-            placeholder="Username or Email"
-            _light={{
-              placeholderTextColor: "blueGray.400",
-            }}
-            _dark={{
-              placeholderTextColor: "blueGray.50",
-            }}
 
+      <View style={styles.buttonStyle}>
+        <TextInput
+          placeholder = "Email"
+          value={email}
+          onChangeText={text=> setEmail(text)}
           />
-        </View>
       </View>
+
 
       {/* Password Input Field */}
       <View style={styles.buttonStyleX}>
-        
-        <View style={styles.emailInput}>
-          <Input
-            InputLeftElement={
-              <Icon
-                as={<FontAwesome5 name="key" />}
-                size="sm"
-                m={2}
-                _light={{
-                  color: "black",
-                }}
-                _dark={{
-                  color: "gray.300",
-                }}
-              />
-            }
-            variant="outline"
-            secureTextEntry={true}
-            placeholder="Password"
-            _light={{
-              placeholderTextColor: "blueGray.400",
-            }}
-            _dark={{
-              placeholderTextColor: "blueGray.50",
-            }}
+      <TextInput
+          placeholder = "Password"
+          value={password}
+          onChangeText={text=> setPassword(text)}
+          secureTextEntry
           />
-        </View>
       </View>
 
-      {/* Button */}
+      {/* Login Button */}
       <View style={styles.buttonStyle}>
-
         <Button style={styles.buttonDesign} onPress={handleLogin}>
       LOGIN
     </Button>
-
       </View>
-
-      {/* Line */}
-      <View style={styles.lineStyle}>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        <View>
-          <Text style={{width: 50, textAlign: 'center'}}>Or</Text>
-        </View>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-      </View>
-
-      {/* Box */}
-      <View style={styles.boxStyle}>
-      <Box 
-        onPress={() => navigation.navigate("#")}  // for navigation 
-        style={{height:80, width:80}} 
-        shadow={3}
-        _light={{
-          backgroundColor: "gray.50",
-        }}
-        _dark={{
-          backgroundColor: "gray.700",
-        }}
-      >
-        <AspectRatio ratio={1 / 1}>
-          <Image
-            roundedTop="lg"
-            source={{
-              uri: "https://www.transparentpng.com/thumb/google-logo/colorful-google-logo-transparent-clipart-download-u3DWLj.png",
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-      </Box>
-      <Box 
-        onPress={() => navigation.navigate("#")}  // for navigation
-        style={styles.imageStyle}
-        shadow={3}
-        _light={{
-          backgroundColor: "gray.50",
-        }}
-        _dark={{
-          backgroundColor: "gray.700",
-        }}
-      >
-        <AspectRatio ratio={1 / 1}>
-          <Image
-            
-            roundedTop="lg"
-            source={{
-              uri: "https://www.transparentpng.com/thumb/facebook-logo-png/photo-facebook-logo-png-hd-25.png",
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-      </Box>
-      <Box 
-        onPress={() => navigation.navigate("#")}  // for navigation
-        style={styles.imageStyle}
-        shadow={3}
-        _light={{
-          backgroundColor: "gray.50",
-        }}
-        _dark={{
-          backgroundColor: "gray.700",
-        }}
-      >
-        <AspectRatio ratio={1 / 1}>
-          <Image
-            
-            roundedTop="lg"
-            source={{
-              uri: "https://www.transparentpng.com/thumb/twitter/bird-twitter-socialmedia-icons-png-5.png",
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-      </Box>
-      <Box 
-        onPress={() => navigation.navigate("#")}  // for navigation
-        style={styles.imageStyle}
-        shadow={3}
-        _light={{
-          backgroundColor: "gray.50",
-        }}
-        _dark={{
-          backgroundColor: "gray.700",
-        }}
-      >
-        <AspectRatio ratio={1 / 1}>
-          <Image
-            
-            roundedTop="lg"
-            source={{
-              uri: "https://www.transparentpng.com/thumb/apple-logo/RRgURB-apple-logo-clipart-hd.png",
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-      </Box>
-      </View>
-      <StatusBar style="auto" />
     </View>
   );
 }
@@ -259,17 +133,5 @@ const styles = StyleSheet.create({
     marginLeft:15,
     marginRight:15,
     alignItems:'center'
-  },
-  imageStyle:{
-    width:80,
-    height:80,
-    marginLeft:20,
-  },
-  boxStyle:{
-    flexDirection:'row',
-    marginTop:30,
-    marginLeft:15,
-    marginRight:15,
-    justifyContent:'space-around'
   },
 });

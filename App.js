@@ -22,9 +22,9 @@ const Tab = createBottomTabNavigator();
 function LoginStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Signup" component={Signup} />
-      <Stack.Screen name="HomeScreen" component={HomeTabNavigator} />
+      <Stack.Screen options={{headerShown: false}} name="Login" component={Login} />
+      <Stack.Screen options={{headerShown: false}} name="Signup" component={Signup} />
+      <Stack.Screen options={{headerShown: false}} name="HomeScreen" component={HomeTabNavigator} />
     </Stack.Navigator>
   );
 }
