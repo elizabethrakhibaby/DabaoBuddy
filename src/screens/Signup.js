@@ -1,7 +1,7 @@
 
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { Input, NativeBaseProvider, Button, Icon, Box, Image, AspectRatio } from 'native-base';
+import { NativeBaseProvider, Button, Icon, Box, Image, AspectRatio } from 'native-base';
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { alignContent, flex, flexDirection, width } from 'styled-system';
@@ -14,6 +14,8 @@ function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+
     
     // const handleRegistration = () => {
     //   navigation.navigate("Login");
@@ -30,15 +32,18 @@ function Signup() {
             firestore.collection('users').doc(user.uid).set({
               email: user.email
             });
+            setError(''); // Reset the error message
+            navigation.navigate('Login');
           })
           .catch(error => {
+            setError(error.message); // Set the error message
             console.log('Signup failed:', error.message);
           });
       } else {
-        console.log('Passwords do not match');
+        setError('Passwords do not match'); // Set the error message
       }
-      navigation.navigate('Login');
     };
+  
 
   return (
     //First 2 lines
@@ -52,7 +57,7 @@ function Signup() {
       </View>
 
       {/* Username or Email Input Field */}
-      <View style={styles.buttonStyle}>
+      <View style={styles.buttonStyleX}>
       <TextInput
           placeholder = "Email"
           value={email}
@@ -82,8 +87,11 @@ function Signup() {
        {/* Signup Button */}
        <View style={styles.buttonStyle}>
         <Button style={styles.buttonDesign} onPress={handleRegistration}>
-      SIGN UP
+      <Text> SIGN UP </Text>
     </Button>
+    {/* Error Message */}
+    <Text style={styles.errorText}>{error}</Text>
+      {/* Rest of your code */}
       </View>
 
     </View>
@@ -139,10 +147,11 @@ const styles = StyleSheet.create({
   buttonStyleX:{
     marginTop:12,
     marginLeft:15,
-    marginRight:15
+    marginRight:15,
+    marginBottom: 10
   },
   buttonDesign:{
-    backgroundColor:'#026efd'
+    backgroundColor:'#FDDB62'
   },
   lineStyle:{
     flexDirection:'row',
@@ -163,5 +172,9 @@ const styles = StyleSheet.create({
     marginRight:15,
     justifyContent:'space-around'
   },
+  errorText: {
+    color: 'red',
+  },
+  
 });
 

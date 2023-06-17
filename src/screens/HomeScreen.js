@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, ScrollView} from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,8 +7,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProfileScreen from "./ProfileScreen";
 
 
-const HomeScreen = function() {
 
+const HomeScreen = function() {
+  
     return (
         <View>
         <Text>This is the home screen</Text>
@@ -16,13 +17,6 @@ const HomeScreen = function() {
     );
 };
 
-const styles = StyleSheet.create({
-  textStyle: {
-    fontSize: 30,
-  },
-});
-
-export default HomeScreen;
 
 
 
@@ -47,9 +41,10 @@ const App = () => {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: 'tomato',
+          tabBarActiveTintColor: '',
           tabBarInactiveTintColor: 'gray',
         })}
+       
       >
         <Tab.Screen
           name="Home"
@@ -61,5 +56,16 @@ const App = () => {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  textStyle: {
+    fontSize: 30,
+  },
+  navigatorBar: {
+    backgroundColorColor: "#FDDB62"
+  }
+});
+
+export default HomeScreen;
 
 

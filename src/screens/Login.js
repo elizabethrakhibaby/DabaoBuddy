@@ -44,7 +44,7 @@ const handleLogin = () => {
 
       {/* Username or Email Input Field */}
 
-      <View style={styles.buttonStyle}>
+      <View style={styles.buttonStyleX}>
         <TextInput
           placeholder = "Email"
           value={email}
@@ -66,7 +66,7 @@ const handleLogin = () => {
       {/* Login Button */}
       <View style={styles.buttonStyle}>
         <Button style={styles.buttonDesign} onPress={handleLogin}>
-      LOGIN
+      <Text>LOGIN</Text>
     </Button>
       </View>
     </View>
@@ -85,6 +85,7 @@ export default () => {
 
 
 const styles = StyleSheet.create({
+  // Background colour
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -122,10 +123,11 @@ const styles = StyleSheet.create({
   buttonStyleX:{
     marginTop:12,
     marginLeft:15,
-    marginRight:15
+    marginRight:15,
+    marginBottom: 10
   },
   buttonDesign:{
-    backgroundColor:'#026efd'
+    backgroundColor:'#FDDB62'
   },
   lineStyle:{
     flexDirection:'row',
