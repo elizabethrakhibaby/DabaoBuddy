@@ -150,21 +150,52 @@ const FinancesScreen = function () {
     }
   };
 
+  const resetValues = async () => {
+    try {
+      const user = firebase.auth().currentUser;
+  
+      if (user) {
+        const uid = user.uid;
+        const userRef = firestore.collection('users').doc(uid);
+  
+        // Reset the earnings and expenditure values to 0
+        await userRef.update({ earnings: 0, expenditure: 0 });
+  
+        // Update the state to reflect the new values
+        setEarnings(0);
+        setExpenditure(0);
+  
+        console.log('Values reset successfully!');
+      } else {
+        console.log('No user is currently logged in.');
+      }
+    } catch (error) {
+      console.error('Error resetting values:', error);
+    }
+  };
+  
+
   return (
-    <View style={{ backgroundColor: "EAE5D9", flex: 1 }}>
-      <Text style={styles.pageTitle}>Keep track of your finances!</Text>
+    <View style={{ backgroundColor: "#FDDB62", flex: 1 }}>
+      <Text style={styles.pageTitle}> Finance Tracker</Text>
 
       <Button
         onPress={() => increaseEarnings(10)}
         title="Increase earnings by 10"
-        color="#841584"
+        color="green"
       />
 
       <Button
-        onPress={() => increaseExpenditure(44)}
-        title="Increase expenditure by 44"
-        color="#841584"
+        onPress={() => increaseExpenditure(10)}
+        title="Increase expenditure by 10"
+        color="red"
       />
+
+      <Button
+              onPress={resetValues}
+              title="Reset Values"
+              color="gray"
+            />
 
       <View style={styles.graphWrapper}>
         <Svg height="270" width="270" viewBox="0 0 180 180">
@@ -184,7 +215,7 @@ const FinancesScreen = function () {
                   cx="50%"
                   cy="50%"
                   r={radius}
-                  stroke="#0057B7"
+                  stroke="#FAA0A0"
                   fill="transparent"
                   strokeWidth="40"
                   strokeDasharray={circleCircumference}
@@ -200,7 +231,7 @@ const FinancesScreen = function () {
                   cx="50%"
                   cy="50%"
                   r={radius}
-                  stroke="#ffd700"
+                  stroke="#98FB98"
                   fill="transparent"
                   strokeWidth="40"
                   strokeDasharray={circleCircumference}
@@ -217,6 +248,8 @@ const FinancesScreen = function () {
         </Svg>
         <Text style={styles.label}>$ {net}</Text>
       </View>
+
+      {/* Overall earnings and expenditure boxes */}
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.box1}>
           <Text style={styles.infoHeading}>Overall Earnings</Text>
@@ -239,9 +272,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   pageTitle: {
-    fontSize: 50,
+    fontSize: 30,
     alignSelf: "center",
-    fontFamily: "Times New Roman"
+    fontFamily: "Helvetica"
   },
   container: {
     flex: 1,
@@ -263,7 +296,7 @@ const styles = StyleSheet.create({
   box1: {
     width: 170,
     height: 150,
-    backgroundColor: "#8CB1F7",
+    backgroundColor: "#98FB98",
     borderRadius: 15,
     margin: 20,
     alignItems: 'center',
@@ -271,7 +304,7 @@ const styles = StyleSheet.create({
   box2: {
     width: 170,
     height: 150,
-    backgroundColor: "#E8EC77",
+    backgroundColor: "#FAA0A0",
     borderRadius: 15,
     marginTop: 20,
     marginRight: 20,

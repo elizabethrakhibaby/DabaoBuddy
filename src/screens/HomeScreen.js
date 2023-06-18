@@ -1,20 +1,41 @@
-import React from "react";
+import React, {useState}  from "react";
 import { Text, StyleSheet, View, ScrollView} from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 //import HomeScreen from "../DabaoBuddy/src/screens/HomeScreen";
 import ProfileScreen from "./ProfileScreen";
+import SearchBar from '../components/SearchBar';
+import useResults from '../hooks/useResults';
+import ResultsList from '../components/ResultsList';
+
 
 
 
 const HomeScreen = function() {
-  
-    return (
-        <View>
-        <Text>This is the home screen</Text>
-        </View>
-    );
+  const[term, setTerm] = useState('');
+  const[searchApi, results, errorMessage] = useResults();
+
+  const filterResultsByPrice = (price) => {
+      //price === '$'||'$$'||'$$$'
+      return results.filter(result => {
+          return result.price === price;
+      });
+  };
+
+  return <>
+      <SearchBar 
+      term={term} 
+      onTermChange={setTerm} 
+      onTermSubmit={() => searchApi(term)}/>
+      {errorMessage ? <Text>{errorMessage}</Text> : null}
+      
+      <ScrollView>
+      <ResultsList results={filterResultsByPrice('$')} title="Cost Effective" />
+      <ResultsList results={filterResultsByPrice('$$')} title="Bit Pricier" />
+      <ResultsList results={filterResultsByPrice('$$$')} title="Big Spender"/>
+      </ScrollView>
+  </>
 };
 
 
@@ -67,5 +88,3 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
-
-

@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { NativeBaseProvider, Button, Icon, Box, Image, AspectRatio } from 'native-base';
-import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image } from 'react-native';
+import { NativeBaseProvider, Button, Icon, Box,  AspectRatio } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { alignContent, flex, flexDirection, width } from 'styled-system';
 import { auth, firestore } from './firebase';
@@ -93,7 +92,8 @@ function Signup() {
         <Text style={styles.errorText}>{error}</Text>
         {/* Rest of your code */}
       </View>
-
+      <Image source={require('../../assets/icon.jpg')} style={styles.icon} />
+      <Image source={require('../../assets/NUS.jpeg')} style={styles.logo} />
     </View>
   );
 }
@@ -175,6 +175,17 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
   },
-
+  icon: {
+    width: 300,
+    height: 300,
+    marginBottom:20,
+    alignSelf: 'center',
+    marginTop: 50
+  },
+  logo: {
+    width: 120,
+    height: 80,
+    alignSelf: 'flex-end'
+  },
 });
 

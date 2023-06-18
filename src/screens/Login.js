@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { Input, NativeBaseProvider, Button, Icon, Box, Image, AspectRatio } from 'native-base';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput,Image} from 'react-native';
+import { Input, NativeBaseProvider, Button, Icon, Box, AspectRatio } from 'native-base';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { alignContent, flex, flexDirection, width } from 'styled-system';
@@ -69,8 +69,13 @@ const handleLogin = () => {
       <Text>LOGIN</Text>
     </Button>
       </View>
+      
+      <Image source={require('../../assets/icon.jpg')} style={styles.icon} />
+      <Image source={require('../../assets/NUS.jpeg')} style={styles.logo} />
     </View>
+    
   );
+  
 }
 
 export default () => {
@@ -94,6 +99,7 @@ const styles = StyleSheet.create({
     marginTop:100,
     fontSize:30,
     fontWeight:'bold',
+    marginTop: 150
   },
   Middle:{
     alignItems:'center',
@@ -135,5 +141,17 @@ const styles = StyleSheet.create({
     marginLeft:15,
     marginRight:15,
     alignItems:'center'
+  },
+  icon: {
+    width: 300,
+    height: 300,
+    marginBottom:20,
+    alignSelf: 'center',
+    marginTop: 50
+  },
+  logo: {
+    width: 120,
+    height: 80,
+    alignSelf: 'flex-end'
   },
 });

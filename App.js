@@ -5,7 +5,7 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import FinancesScreen from './src/screens/FinancesScreen';
 import OrdersScreen from './src/screens/OrdersScreen';
 import MessengerScreen from './src/screens/MessengerScreen';
-
+import ResultsShowScreen from './src/screens/ResultsShowScreen';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -25,6 +25,7 @@ function LoginStack() {
       <Stack.Screen options={{headerShown: false}} name="Login" component={Login} />
       <Stack.Screen options={{headerShown: false}} name="Signup" component={Signup} />
       <Stack.Screen options={{headerShown: false}} name="HomeScreen" component={HomeTabNavigator} />
+      <Stack.Screen options={{ headerShown: false }} name="ResultsShow" component={ResultsShowScreen} /> 
     </Stack.Navigator>
   );
 }
@@ -57,7 +58,7 @@ function HomeTabNavigator() {
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
       })}>
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeScreen}/>
       <Tab.Screen name="Finances" component={FinancesScreen} />
       <Tab.Screen name="Orders" component={OrdersScreen} />
       <Tab.Screen name="Messenger" component={MessengerScreen} />
