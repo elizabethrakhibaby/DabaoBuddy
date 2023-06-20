@@ -94,7 +94,7 @@ function ProfileScreen() {
   );
 }
 
-//styling
+//style
 const styles = StyleSheet.create({
 container: {
   flex: 1,
