@@ -37,7 +37,7 @@ const BuddyScreen = function () {
 
   return (
     <View>
-      <Text style={styles.textStyle}>This is where users can see all placed orders.</Text>
+      <Text style={styles.textStyle}>All placed order are reflected in this screen. Help someone today and be a Buddy!.</Text>
       <FlatList
         data={imageData}
         renderItem={renderItem}
