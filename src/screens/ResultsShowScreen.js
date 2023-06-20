@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import yelp from '../api/yelp';
+import { useNavigation } from '@react-navigation/native';
 
 const ResultShowScreen = ({ route }) => {
+  const navigation = useNavigation();
   const [result, setResult] = useState(null);
+
   const { id } = route.params;
 
   const getResult = async (id) => {
@@ -19,6 +22,10 @@ const ResultShowScreen = ({ route }) => {
     return null;
   }
 
+  const confirmOrderDetails = (storeID, imageURLOfFoodItem) => {
+    navigation.navigate('ConfirmOrder',{ storeID, imageURLOfFoodItem });
+  }
+
   return (
     <View>
       <Text>{result.name}</Text>
@@ -26,7 +33,11 @@ const ResultShowScreen = ({ route }) => {
         data={result.photos}
         keyExtractor={(photo) => photo}
         renderItem={({ item }) => {
-          return <Image style={styles.styleImage} source={{ uri: item }} />;
+          return (
+            <TouchableOpacity onPress={() => confirmOrderDetails(id,item)}>
+          <Image style={styles.styleImage} source={{ uri: item }} />
+          </TouchableOpacity>
+          );
         }}
       />
     </View>

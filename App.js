@@ -7,6 +7,7 @@ import FinancesScreen from './src/screens/FinancesScreen';
 import OrdersScreen from './src/screens/OrdersScreen';
 import MessengerScreen from './src/screens/MessengerScreen';
 import ResultsShowScreen from './src/screens/ResultsShowScreen';
+import ConfirmOrderScreen from './src/screens/ConfirmOrderScreen';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -28,7 +29,25 @@ function LoginStack() {
       <Stack.Screen options={{ headerShown: false }} name="HomeScreen" component={HomeTabNavigator} />
       <Stack.Screen
         options={({ navigation }) => ({
-          title: 'Result Details',
+          title: 'Confirm your order',
+          headerLeft: () => (
+            <Ionicons
+              name="arrow-back"
+              size={25}
+              color="black"
+              onPress={() => navigation.goBack()}
+              style={{ marginLeft: 15 }}
+            />
+          ),
+        })}
+        name="ConfirmOrder"
+        component={ConfirmOrderScreen}
+      />
+
+
+      <Stack.Screen
+        options={({ navigation }) => ({
+          title: 'Menu Items',
           headerLeft: () => (
             <Ionicons
               name="arrow-back"
