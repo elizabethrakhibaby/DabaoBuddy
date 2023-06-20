@@ -1,6 +1,7 @@
 import Signup from './src/screens/Signup';
 import Login from './src/screens/Login';
 import HomeScreen from './src/screens/HomeScreen';
+import BuddyScreen from "./src/screens/BuddyScreen"
 import ProfileScreen from './src/screens/ProfileScreen';
 import FinancesScreen from './src/screens/FinancesScreen';
 import OrdersScreen from './src/screens/OrdersScreen';
@@ -22,10 +23,25 @@ const Tab = createBottomTabNavigator();
 function LoginStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen options={{headerShown: false}} name="Login" component={Login} />
-      <Stack.Screen options={{headerShown: false}} name="Signup" component={Signup} />
-      <Stack.Screen options={{headerShown: false}} name="HomeScreen" component={HomeTabNavigator} />
-      <Stack.Screen options={{ headerShown: false }} name="ResultsShow" component={ResultsShowScreen} /> 
+      <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+      <Stack.Screen options={{ headerShown: false }} name="Signup" component={Signup} />
+      <Stack.Screen options={{ headerShown: false }} name="HomeScreen" component={HomeTabNavigator} />
+      <Stack.Screen
+        options={({ navigation }) => ({
+          title: 'Result Details',
+          headerLeft: () => (
+            <Ionicons
+              name="arrow-back"
+              size={25}
+              color="black"
+              onPress={() => navigation.goBack()}
+              style={{ marginLeft: 15 }}
+            />
+          ),
+        })}
+        name="ResultsShow"
+        component={ResultsShowScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -38,7 +54,9 @@ function HomeTabNavigator() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Home') {
+          if (route.name === 'Dabao') {
+            iconName = focused ? 'information-circle' : 'information-circle-outline';
+          } else if (route.name === 'Buddy') {
             iconName = focused ? 'information-circle' : 'information-circle-outline';
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
@@ -58,7 +76,8 @@ function HomeTabNavigator() {
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
       })}>
-      <Tab.Screen name="Home" component={HomeScreen}/>
+      <Tab.Screen name="Dabao" component={HomeScreen} />
+      <Tab.Screen name="Buddy" component={BuddyScreen} />
       <Tab.Screen name="Finances" component={FinancesScreen} />
       <Tab.Screen name="Orders" component={OrdersScreen} />
       <Tab.Screen name="Messenger" component={MessengerScreen} />
