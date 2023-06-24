@@ -27,7 +27,9 @@ function Signup() {
             email: user.email,
             earnings: 0,
             expenditure: 0,
-            name: ""
+            name: "",
+            placedOrdersArray: [],
+            acceptedOrdersArray: []
           });
           setError(''); // Reset the error message
           navigation.navigate('Login');
