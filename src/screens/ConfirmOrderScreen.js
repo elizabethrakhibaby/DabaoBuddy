@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import yelp from '../api/yelp';
 import { useNavigation } from '@react-navigation/native';
 import { auth, firestore } from './firebase';
+import { getNameOfLoggedInUser, getIDOfLoggedInUser, addToPlacedOrders } from '../utils';
 
 const ConfirmOrderScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -11,12 +12,10 @@ const ConfirmOrderScreen = ({ route }) => {
         const ordersCollection = firestore.collection('orderList');
         const newOrderRef = ordersCollection.doc(); // Generate a new document reference without specifying an ID
         const orderID = newOrderRef.id; //we need to add this to users as well...
-        const user = auth.currentUser;
-        const uid = user.uid;
-        const userSnapshot = await firestore.collection('users').doc(auth.currentUser.uid).get();
-        const userData = userSnapshot.data();
-        const placedUserName = userData.name;
 
+        const placedUserName = await getNameOfLoggedInUser();
+        const uid = await getIDOfLoggedInUser();
+        
         // Additional data to be added to the order document
         const orderData = {
             address: address,
@@ -31,6 +30,7 @@ const ConfirmOrderScreen = ({ route }) => {
             acceptedUserName: null,
         };
         await newOrderRef.set(orderData); // Set the data for the order document
+        await addToPlacedOrders(uid, orderID);
     };
     const [storeName, setStoreName] = useState("nothing");
     const [priceOfItem, setPriceOfItem] = useState(null);
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         fontSize: 20,
-        fontFamily: 'arial', // Replace with the desired font family
+        //fontFamily: 'arial', // Replace with the desired font family
         fontWeight: 'bold',
         color: 'green',
         marginBottom: 20,
@@ -158,5 +158,14 @@ export default ConfirmOrderScreen;
  * $$ - $5.00
  * $$$ - $7.50
  */
+
+
+/*
+const user = auth.currentUser;
+const uid = user.uid;
+const userSnapshot = await firestore.collection('users').doc(auth.currentUser.uid).get();
+const userData = userSnapshot.data();
+const placedUserName = userData.name;
+*/
 
 

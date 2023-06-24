@@ -3,7 +3,6 @@ import { Text, StyleSheet, View, Button } from "react-native";
 import { auth, firestore } from "./firebase";
 import firebase from 'firebase/compat/app';
 import Svg, { G, Circle } from "react-native-svg";
-//import { background, backgroundColor, justifyContent } from "styled-system";
 
 const FinancesScreen = function () {
   const [expenditure, setExpenditure] = useState(null);
@@ -215,7 +214,7 @@ const FinancesScreen = function () {
                   cx="50%"
                   cy="50%"
                   r={radius}
-                  stroke="#FAA0A0"
+                  stroke="#98FB98"
                   fill="transparent"
                   strokeWidth="40"
                   strokeDasharray={circleCircumference}
@@ -231,7 +230,7 @@ const FinancesScreen = function () {
                   cx="50%"
                   cy="50%"
                   r={radius}
-                  stroke="#98FB98"
+                  stroke="#FAA0A0"
                   fill="transparent"
                   strokeWidth="40"
                   strokeDasharray={circleCircumference}
