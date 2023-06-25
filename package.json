@@ -31,7 +31,9 @@
     "styled-system": "^5.1.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "standard": "^17.1.0"
   },
   "private": true
+   
 }
