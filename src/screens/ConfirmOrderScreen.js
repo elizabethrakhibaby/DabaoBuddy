@@ -81,7 +81,7 @@ const ConfirmOrderScreen = ({ route }) => {
             <TouchableOpacity style={styles.placeOrderButton}
                 onPress={() => {
                     createOrder();
-                    navigation.navigate('Buddy')
+                    navigation.navigate('Orders');
                 }}>
                 <Text>PLACE ORDER</Text>
             </TouchableOpacity>
