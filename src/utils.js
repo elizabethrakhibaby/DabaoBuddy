@@ -119,3 +119,62 @@ export const removeFromAcceptedOrders = async (userId, orderToRemove) => {
     console.error('Error removing order from acceptedOrdersArray:', error);
   }
 };
+
+
+
+//When a user accepts an order, expenditure of placedUser must increase!
+export const increaseExpenditure = async (placedUserID, valueToAdd) => {
+  try {
+    const userRef = firestore.collection('users').doc(placedUserID);
+    // Get the current expenditure value
+    const userDoc = await userRef.get();
+    /**
+     * If userDoc.data().expenditure is falsy (e.g., null or undefined),
+     * then 0 will be assigned to currentExpenditure as a default value.
+     */
+    const currentExpenditure = userDoc.data().expenditure || 0;
+
+    // Calculate the new earnings value
+    const updatedExpenditure = currentExpenditure + valueToAdd;
+
+    // Update the earnings field in the user document
+    await userRef.update({ expenditure: updatedExpenditure });
+
+
+    console.log('Expenditure have increased');
+  } catch (error) {
+    console.error('Error increasing expenditure:', error);
+  }
+};
+
+
+//When a user accepts an order, earnings of acceptedUser must increase!
+export const increaseEarnings = async (acceptedUserID, valueToAdd) => {
+  try {
+    const userRef = firestore.collection('users').doc(acceptedUserID);
+
+    // Get the current earnings value
+    const userDoc = await userRef.get();
+
+    /**
+     * If userDoc.data().earnings is falsy (e.g., null or undefined),
+     * then 0 will be assigned to currentEarnings as a default value.
+     */
+    const currentEarnings = userDoc.data().earnings || 0;
+
+    // Calculate the new earnings value
+    const updatedEarnings = currentEarnings + valueToAdd;
+    // Update the earnings field in the user document
+    await userRef.update({ earnings: updatedEarnings });
+
+    /*
+    // Fetch the updated user document
+    const updatedUserDoc = await userRef.get();
+    console.log(updatedUserDoc.data().earnings);
+    */
+
+    console.log('Earnings have increased');
+  } catch (error) {
+    console.error('Error increasing earnings:', error);
+  }
+};

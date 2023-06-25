@@ -1,70 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View, Button } from "react-native";
+import { useIsFocused } from '@react-navigation/native';
 import { auth, firestore } from "./firebase";
-import firebase from 'firebase/compat/app';
 import Svg, { G, Circle } from "react-native-svg";
+import { getIDOfLoggedInUser } from "../utils";
 
 const FinancesScreen = function () {
-  const [expenditure, setExpenditure] = useState(null);
-  const [earnings, setEarnings] = useState(null);
+  const isFocused = useIsFocused();
+  const [expenditure, setExpenditure] = useState(0);
+  const [earnings, setEarnings] = useState(0);
 
   useEffect(() => {
-    getCurrentUserExpenditure();
-  }, []);
+    fetchFinanceData();
+  }, [isFocused]);
 
-  const getCurrentUserExpenditure = () => {
-    const user = firebase.auth().currentUser;
-
-    if (user) {
-      const uid = user.uid;
-      retrieveUserExpenditure(uid);
-    } else {
-      console.log('No user is currently logged in.');
-    }
-  };
-
-  const retrieveUserExpenditure = async (uid) => {
+  const fetchFinanceData = async () => {
     try {
-      const userDoc = await firestore.collection('users').doc(uid).get();
-
-      if (userDoc.exists) {
-        const expenditureData = userDoc.data().expenditure;
-        setExpenditure(expenditureData);
+      const userID = await getIDOfLoggedInUser();
+      const userRef = firestore.collection('users').doc(userID);
+      const snapshot = await userRef.get();
+      if (snapshot.exists) {
+        const userData = snapshot.data();
+        const currentEarnings = userData.earnings || 0;
+        const currentExpenditure = userData.expenditure || 0;
+        setEarnings(currentEarnings);
+        setExpenditure(currentExpenditure);
       } else {
-        console.log('User document does not exist.');
+        console.log('User profile does not exist');
       }
     } catch (error) {
-      console.error('Error retrieving expenditure data:', error);
-    }
-  };
-  //
-  useEffect(() => {
-    getCurrentUserEarnings();
-  }, []);
-
-  const getCurrentUserEarnings = () => {
-    const user = firebase.auth().currentUser;
-
-    if (user) {
-      const uid = user.uid;
-      retrieveUserEarnings(uid);
-    } else {
-      console.log('No user is currently logged in.');
-    }
-  };
-
-  const retrieveUserEarnings = async (uid) => {
-    try {
-      const userDoc = await firestore.collection('users').doc(uid).get();
-
-      if (userDoc.exists) {
-        const earningsData = userDoc.data().earnings;
-        setEarnings(earningsData);
-      } else {
-        console.log('User document does not exist.');
-      }
-    } catch (error) {
-      console.error('Error retrieving earnings data:', error);
+      console.error('Error fetching finance data:', error);
     }
   };
 
@@ -87,115 +52,10 @@ const FinancesScreen = function () {
   const earningsAngle = (earnings / total) * 360;
   const expenditureAngle = (expenditure / total) * 360;
 
-  /* This code will be used when user's order is delivered if user in Dabao mode*/
-  const increaseExpenditure = async (valueToAdd) => {
-    try {
-      const user = firebase.auth().currentUser;
-
-      if (user) {
-        const uid = user.uid;
-        const userRef = firestore.collection('users').doc(uid);
-
-        // Get the current expenditure value
-        const userDoc = await userRef.get();
-        const currentExpenditure = userDoc.data().expenditure || 0;
-
-        // Calculate the new expenditure value
-        const updatedExpenditure = currentExpenditure + valueToAdd;
-
-        // Update the expenditure field in the user document
-        await userRef.update({ expenditure: updatedExpenditure });
-
-        // Update the state to reflect the new expenditure
-        setExpenditure(updatedExpenditure);
-
-        console.log('Expenditure increased successfully!');
-      } else {
-        console.log('No user is currently logged in.');
-      }
-    } catch (error) {
-      console.error('Error increasing expenditure:', error);
-    }
-  };
-
-  /* This code will be used when user's order is delivered if user in Buddy mode*/
-  const increaseEarnings = async (valueToAdd) => {
-    try {
-      const user = firebase.auth().currentUser;
-
-      if (user) {
-        const uid = user.uid;
-        const userRef = firestore.collection('users').doc(uid);
-
-        // Get the current earnings value
-        const userDoc = await userRef.get();
-        const currentEarnings = userDoc.data().earnings || 0;
-
-        // Calculate the new earnings value
-        const updatedEarnings = currentEarnings + valueToAdd;
-
-        // Update the expenditure field in the user document
-        await userRef.update({ earnings: updatedEarnings });
-
-        // Update the state to reflect the new expenditure
-        setEarnings(updatedEarnings);
-
-        console.log('Earnings increased successfully!');
-      } else {
-        console.log('No user is currently logged in.');
-      }
-    } catch (error) {
-      console.error('Error increasing earnings:', error);
-    }
-  };
-
-  const resetValues = async () => {
-    try {
-      const user = firebase.auth().currentUser;
-  
-      if (user) {
-        const uid = user.uid;
-        const userRef = firestore.collection('users').doc(uid);
-  
-        // Reset the earnings and expenditure values to 0
-        await userRef.update({ earnings: 0, expenditure: 0 });
-  
-        // Update the state to reflect the new values
-        setEarnings(0);
-        setExpenditure(0);
-  
-        console.log('Values reset successfully!');
-      } else {
-        console.log('No user is currently logged in.');
-      }
-    } catch (error) {
-      console.error('Error resetting values:', error);
-    }
-  };
-  
 
   return (
     <View style={{ backgroundColor: "#FDDB62", flex: 1 }}>
       <Text style={styles.pageTitle}> Finance Tracker</Text>
-
-      <Button
-        onPress={() => increaseEarnings(10)}
-        title="Increase earnings by 10"
-        color="green"
-      />
-
-      <Button
-        onPress={() => increaseExpenditure(10)}
-        title="Increase expenditure by 10"
-        color="red"
-      />
-
-      <Button
-              onPress={resetValues}
-              title="Reset Values"
-              color="gray"
-            />
-
       <View style={styles.graphWrapper}>
         <Svg height="270" width="270" viewBox="0 0 180 180">
           <G rotation={-90} originX="90" originY="90">
@@ -326,3 +186,38 @@ export default FinancesScreen;
 
 
 
+/*
+  const resetValues = async () => {
+    try {
+      const user = firebase.auth().currentUser;
+
+      if (user) {
+        const uid = user.uid;
+        const userRef = firestore.collection('users').doc(uid);
+
+        // Reset the earnings and expenditure values to 0
+        await userRef.update({ earnings: 0, expenditure: 0 });
+
+        // Update the state to reflect the new values
+        setEarnings(0);
+        setExpenditure(0);
+
+        console.log('Values reset successfully!');
+      } else {
+        console.log('No user is currently logged in.');
+      }
+    } catch (error) {
+      console.error('Error resetting values:', error);
+    }
+  };
+
+
+
+
+        <Button
+        onPress={resetValues}
+        title="Reset Values"
+        color="gray"
+      />
+      
+  */

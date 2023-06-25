@@ -76,25 +76,25 @@ const OrdersScreen = function () {
   };
 
   return (
-    <ScrollView>
+    <View style={{ flex: 1 }}>
       <Text>This is the Orders Screen.</Text>
       <Text style={styles.textStyle}>Orders you placed:</Text>
-      <View>
+
         <FlatList
           data={orderData.filter(item => placedOrdersData.includes(item?.id))}
           renderItem={renderItemPO}
           keyExtractor={(item) => item?.id}
         />
-      </View>
+
       <Text style={styles.textStyle}>Orders you accepted:</Text>
-      <View style={{ maxHeight: '70%' }}>
+
         <FlatList
           data={orderData.filter(item => acceptedOrdersData.includes(item?.id))}
           renderItem={renderItemAO}
           keyExtractor={(item) => item?.id}
         />
-      </View>
-    </ScrollView>
+
+    </View>
   );
 };
 

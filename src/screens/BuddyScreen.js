@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, FlatList, TouchableOpacity, Image } from "react-native";
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { auth, firestore } from './firebase';
-import { getNameOfLoggedInUser, getIDOfLoggedInUser, addToAcceptedOrders } from '../utils';
+import { getNameOfLoggedInUser, getIDOfLoggedInUser, addToAcceptedOrders, increaseEarnings, increaseExpenditure } from '../utils';
 const BuddyScreen = function () {
   //Change default header of BuddyScreen from Buddy to Buddy Mode -- Accept Orders!
   useEffect(() => {
@@ -43,30 +43,31 @@ const BuddyScreen = function () {
 
   const confirmOrderAcceptance = async (item) => {
     try {
+
       const orderRef = firestore.collection('orderList').doc(item.id);
       const orderID = orderRef.id
       await orderRef.update({
         acceptedUserName: loggedInUserName,
         acceptedUserID: loggedInUserID,
       });
-  
+
       console.log('Order acceptance confirmed:', item);
       // Immediately refresh the data
       fetchOrderData();
 
-      
       //add orderID to acceptedOrdersArray of acceptedUser - loggedInUserID
-      await addToAcceptedOrders(loggedInUserID,orderID);
-      
+      await addToAcceptedOrders(loggedInUserID, orderID);
+
       //Update earnings of acceptedUser - loggedInUserID
+      await increaseEarnings(loggedInUserID, item.priceOfItem);
 
       //Update expenditure of placedUser - item.placedUserID
-  
+      await increaseExpenditure(item.placedUserID,item.priceOfItem);
+
     } catch (error) {
       console.error('Error confirming order acceptance:', error);
     }
   };
-  
 
   /** Retrieve loggedInUserID */
   const [loggedInUserID, setLoggedInUserID] = useState('');
@@ -85,22 +86,22 @@ const BuddyScreen = function () {
   }, []);
   /** Retrieve loggedInUserID */
 
-   /** Retrieve loggedInUserName */
-   const [loggedInUserName, setLoggedInUserName] = useState('');
+  /** Retrieve loggedInUserName */
+  const [loggedInUserName, setLoggedInUserName] = useState('');
 
-   useEffect(() => {
-     const fetchLoggedInUserName = async () => {
-       try {
-         const id = await getNameOfLoggedInUser();
-         setLoggedInUserName(id);
-       } catch (error) {
-         console.error('Error fetching logged-in user Name:', error);
-       }
-     };
- 
-     fetchLoggedInUserName();
-   }, []);
-   /** Retrieve loggedInUserName */
+  useEffect(() => {
+    const fetchLoggedInUserName = async () => {
+      try {
+        const id = await getNameOfLoggedInUser();
+        setLoggedInUserName(id);
+      } catch (error) {
+        console.error('Error fetching logged-in user Name:', error);
+      }
+    };
+
+    fetchLoggedInUserName();
+  }, []);
+  /** Retrieve loggedInUserName */
 
 
   const renderItem = ({ item }) => {
@@ -197,23 +198,3 @@ const styles = StyleSheet.create({
 });
 
 export default BuddyScreen;
-
-
-
-
-  /** Retrieve loggedInUserID 
-  const [loggedInUserID, setLoggedInUserID] = useState('');
-
-  useEffect(() => {
-    const fetchLoggedInUserID = async () => {
-      try {
-        const id = await getIDOfLoggedInUser(); //
-        setLoggedInUserID(id);
-      } catch (error) {
-        console.error('Error fetching logged-in user ID:', error);
-      }
-    };
-
-    fetchLoggedInUserID();
-  }, []);
- Retrieve loggedInUserID */
