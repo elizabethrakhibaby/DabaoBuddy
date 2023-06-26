@@ -1,4 +1,6 @@
 # DabaoBuddy
+[Project Report](https://docs.google.com/document/d/1WjLjibuKGXjxCush8KQdU4hFuITYwkyn4F8nJAH5U2g/edit).
+[Project Log](https://docs.google.com/spreadsheets/d/1v6nRypsq30viSB18fagijehkkoAgrSnH8kn1lzVSbrM/edit#gid=0).
 
 Level of Achievement: Apollo 11
 
