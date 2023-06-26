@@ -11,26 +11,39 @@ const OrdersScreen = function () {
   const [orderData, setOrderData] = useState([]);
 
   useEffect(() => {
-    const fetchOrderData = async () => {
-      try {
-        const uid = await getIDOfLoggedInUser();
-        const userDoc = await firestore.collection('users').doc(uid).get();
-        if (userDoc.exists) {
-          const placedOrdersArray = userDoc.data().placedOrdersArray;
-          setPlacedOrdersData(placedOrdersArray);
-          const acceptedOrdersArray = userDoc.data().acceptedOrdersArray;
-          setAcceptedOrdersData(acceptedOrdersArray);
-          fetchOrderDetails([...placedOrdersArray, ...acceptedOrdersArray]);
-        } else {
-          console.log('User document does not exist.');
-        }
-      } catch (error) {
-        console.error('Error fetching data of accepted/placed orders:', error);
-      }
-    };
+    let isUnmounted = false;
+    let timeoutId;
 
-    fetchOrderData();
+    if (isFocused && !isUnmounted) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        fetchOrderData(); //function call
+      }, 100); // Delay to avoid rapid calls
+
+      return () => {
+        clearTimeout(timeoutId);
+        isUnmounted = true;
+      };
+    }
   }, [isFocused]);
+
+  const fetchOrderData = async () => {
+    try {
+      const uid = await getIDOfLoggedInUser();
+      const userDoc = await firestore.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        const placedOrdersArray = userDoc.data().placedOrdersArray;
+        setPlacedOrdersData(placedOrdersArray);
+        const acceptedOrdersArray = userDoc.data().acceptedOrdersArray;
+        setAcceptedOrdersData(acceptedOrdersArray);
+        fetchOrderDetails([...placedOrdersArray, ...acceptedOrdersArray]);
+      } else {
+        console.log('User document does not exist.');
+      }
+    } catch (error) {
+      console.error('Error fetching data of accepted/placed orders:', error);
+    }
+  };
 
   const fetchOrderDetails = async (orderIds) => {
     try {

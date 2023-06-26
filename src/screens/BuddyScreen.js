@@ -3,6 +3,10 @@ import { Text, StyleSheet, View, FlatList, TouchableOpacity, Image } from "react
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { auth, firestore } from './firebase';
 import { getNameOfLoggedInUser, getIDOfLoggedInUser, addToAcceptedOrders, increaseEarnings, increaseExpenditure } from '../utils';
+
+
+
+
 const BuddyScreen = function () {
   //Change default header of BuddyScreen from Buddy to Buddy Mode -- Accept Orders!
   useEffect(() => {
@@ -63,6 +67,9 @@ const BuddyScreen = function () {
 
       //Update expenditure of placedUser - item.placedUserID
       await increaseExpenditure(item.placedUserID,item.priceOfItem);
+
+      //NAVIGATE TO ORDERS PAGE
+      navigation.navigate("Orders");
 
     } catch (error) {
       console.error('Error confirming order acceptance:', error);
