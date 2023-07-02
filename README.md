@@ -145,7 +145,7 @@ The messenger screen allows the user to communicate with the user at the other e
 
 The profile screen allows the user to view and edit his personal particulars. Users are also able to logout from the profile screen. 
 
-
+Disclaimer: For the purposes of testing app features, instead of NUS food menu items, tagged menu items of restaurants are shown instead. This data is obtained through the integration of Yelp API in DabaoBuddy. 
 
 
 
