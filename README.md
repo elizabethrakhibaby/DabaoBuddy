@@ -69,17 +69,20 @@ We are trying to come up with a solution that will accomplish two goals at once.
 
 With that, our solution seeks to bridge the gap in the needs of both parties aforementioned.
 
-User Stories:
-1. As a student who has to rush between classes, I want to be able to get my meals without wasting time queuing for food, especially during peak periods. I do not mind paying a small fee to get it delivered at my convenience.
-
-2. As a student helper who is already queuing for food for myself, I would not mind buying an extra portion or two if I can earn some cash in the process. I have unfortunately found myself fitting into the stereotype of “broke uni kid”. 
-
-3. As a student who has to rush between classes, I want to be able to make an informed decision about which stall I should order my food from. Hence a system that optimises decision making (based on individual food preferences, real-time data on waiting times etc) would be beneficial.
-
-4. As a student ordering food, I would like to be given options to choose from campus-wide. 
-
-5. As a stall owner, I want to diversify my income stream, increasing my total revenue by being able to accommodate both in-real-life, pick-up and delivery orders. 
-
+<details>
+  <summary>User Stories</summary>
+  <ol>
+    <li>As a student who has to rush between classes, I want to be able to get my meals without wasting time queuing for food, especially during peak periods. I do not mind paying a small fee to get it delivered at my convenience.</li>
+    <br>
+    <li>As a student helper who is already queuing for food for myself, I would not mind buying an extra portion or two if I can earn some cash in the process. I have unfortunately found myself fitting into the stereotype of “broke uni kid”.</li>
+     <br>
+    <li>As a student who has to rush between classes, I want to be able to make an informed decision about which stall I should order my food from. Hence a system that optimises decision making (based on individual food preferences, real-time data on waiting times etc) would be beneficial.</li>   
+     <br>
+    <li>As a student ordering food, I would like to be given options to choose from campus-wide. </li>   
+     <br>
+    <li>As a stall owner, I want to diversify my income stream, increasing my total revenue by being able to accommodate both in-real-life, pick-up and delivery orders.</li>   
+  </ol>
+</details>
 
 Proposed core features:
 
