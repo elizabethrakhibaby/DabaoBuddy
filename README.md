@@ -83,7 +83,7 @@ With that, our solution seeks to bridge the gap in the needs of both parties afo
     <li>As a stall owner, I want to diversify my income stream, increasing my total revenue by being able to accommodate both in-real-life, pick-up and delivery orders.</li>   
   </ol>
 </details>
-
+<hr>
 Proposed core features:
 
  <ol>
