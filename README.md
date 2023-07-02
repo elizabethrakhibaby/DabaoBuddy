@@ -82,10 +82,9 @@ Testing Instructions:
 
 <details>
   <summary><strong>Testing Instructions </strong></summary>
-  <p>
-     1. Create a folder 
-     2. Open a source-code editor (e.g Visual Code Studio)
-     3. Open terminal on text editor
+   1. Create a folder 
+2. Open a source-code editor (e.g Visual Code Studio)
+3. Open terminal on text editor
 4. Change working directory to folder created in step 1
 5. Type in terminal: `git clone https://github.com/elizabethrakhibaby/DabaoBuddy.git`
    a. In the case that you are faced with this error message: “The “git” command requires the command line developer tools”, type         into terminal: `xcodebuild - runFirstLaunch`
@@ -105,5 +104,4 @@ Testing Instructions:
 12. Scan the QR code (Ensure that wifi connected on both computer and mobile device are the same)
 13. Open “Expo Go” app to try out our application
 
-  </p>
 </details>
