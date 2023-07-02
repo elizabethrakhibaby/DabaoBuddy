@@ -129,7 +129,7 @@ Proposed core features:
     </ol>  
  </ol>
 
-
+<hr>
 The first screen users view after clicking the app icon is known as a splash screen. This screen, which will consist of our app logo, will disappear once when the app is ready to launch. 
 
 After the splash screen, the app will navigate users to the login screen, where they are prompted to enter username and password. If the user is unregistered, a TouchableOpacity element within the login page can be pressed to navigate him to the registration screen. After the user clicks “SIGN UP”, he will be navigated to the login page once again. Once a user enters the correct username and password, upon clicking “LOGIN”, he will be navigated to the home screen.
