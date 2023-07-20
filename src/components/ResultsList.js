@@ -20,6 +20,8 @@ const ResultsList = ({ title, results }) => {
         keyExtractor={(result) => result.id}
         renderItem={({ item }) => {
           return (
+            //'ResultsShow', which represents the name or route key of the screen to navigate to.
+            //{ id: item.id }, which represents the route parameters or additional data that can be passed to the destination screen
             <TouchableOpacity onPress={() => navigation.navigate('ResultsShow', { id: item.id })}>
               <ResultsDetail result={item} />
             </TouchableOpacity>

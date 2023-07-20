@@ -13,9 +13,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,6 +44,7 @@ function LoginStack() {
         name="ConfirmOrder"
         component={ConfirmOrderScreen}
       />
+    
 
 
       <Stack.Screen
@@ -71,13 +72,13 @@ function HomeTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({focused, color}) => {
           let iconName;
 
           if (route.name === 'Dabao') {
-            iconName = focused ? 'information-circle' : 'information-circle-outline';
+            iconName = focused ? 'fast-food' : 'fast-food-outline';
           } else if (route.name === 'Buddy') {
-            iconName = focused ? 'information-circle' : 'information-circle-outline';
+            iconName = focused ? 'list-circle' : 'list-circle-outline';
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
           } else if (route.name === 'Finances') {

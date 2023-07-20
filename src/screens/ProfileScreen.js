@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 function ProfileScreen() {
   const [user, setUser] = useState(null);
   const [name, setName] = useState('');
+  const [location, setLocation] = useState('');
   const navigation = useNavigation();
 
   
@@ -19,6 +20,7 @@ function ProfileScreen() {
         const userData = userSnapshot.data();
         if (userData) {
           setName(userData.name);
+          setLocation(userData.location);
         }
 
         setUser(currentUser);
@@ -39,6 +41,25 @@ function ProfileScreen() {
           .then(() => {
             console.log('Name updated successfully.');
             setName(name); // Update the local state with the new name
+          })
+          .catch(error => {
+            console.log('Failed to update name:', error);
+          });
+      }
+    }
+  };
+
+  const onSaveLocation = () => {
+    if (location) {
+      const currentUser = auth.currentUser;
+
+      if (currentUser) {
+        const userRef = firestore.collection('users').doc(currentUser.uid);
+        userRef
+          .set({ location: location }, { merge: true }) // Use set with merge:true to update the document
+          .then(() => {
+            console.log('Location updated successfully.');
+            setLocation(location); // Update the local state with the new name
           })
           .catch(error => {
             console.log('Failed to update name:', error);
@@ -84,10 +105,25 @@ function ProfileScreen() {
           </TouchableOpacity>
         </View>
       )}
-     
+      {user && (
+        <View style={styles.userInfo}>
+          <Text style={styles.label}>Location:</Text>
+          <TextInput
+            style={styles.value}
+            placeholder="Enter your delivery location"
+            value={location}
+            onChangeText={text => setLocation(text)}
+          />
+          <TouchableOpacity style={styles.button} onPress={onSaveLocation}>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
      <TouchableOpacity style={styles.buttonL} onPress={handleLogout}>
         <Text style={styles.buttonTextL}>Logout</Text>
       </TouchableOpacity>
+
       <Text style={styles.caption}>Created for: </Text>
       <Image source={require('../../assets/NUS.jpeg')} style={styles.logo} />
     </View>

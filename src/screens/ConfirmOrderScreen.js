@@ -2,22 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import yelp from '../api/yelp';
 import { useNavigation } from '@react-navigation/native';
-import { auth, firestore } from './firebase';
-import { getNameOfLoggedInUser, getIDOfLoggedInUser, addToPlacedOrders } from '../utils';
+import { firestore } from './firebase';
+import { getIDOfLoggedInUser, addToPlacedOrders } from '../utils';
 
+// const confirmOrderDetails = (storeID, imageURLOfFoodItem) => {
+// navigation.navigate('ConfirmOrder',{ storeID, imageURLOfFoodItem })}
 const ConfirmOrderScreen = ({ route }) => {
     const navigation = useNavigation();
     // Generate a unique order ID and add data to the order document
     const createOrder = async () => {
         const ordersCollection = firestore.collection('orderList');
-        const newOrderRef = ordersCollection.doc(); // Generate a new document reference without specifying an ID
-        const orderID = newOrderRef.id; //we need to add this to users as well...
-
-        const placedUserName = await getNameOfLoggedInUser();
+        const newOrderRef = ordersCollection.doc();
+        const orderID = newOrderRef.id;
+      
         const uid = await getIDOfLoggedInUser();
-        
-        // Additional data to be added to the order document
-        const orderData = {
+        const userRef = firestore.collection('users').doc(uid);
+        const userSnapshot = await userRef.get();
+      
+        if (userSnapshot.exists) {
+          const userData = userSnapshot.data();
+          const placedUserName = userData.name;
+          const location = userData.location;
+      
+          const orderData = {
             address: address,
             imageURLOfFoodItem: imageURLOfFoodItem,
             overallRating: overallRating,
@@ -28,15 +35,22 @@ const ConfirmOrderScreen = ({ route }) => {
             placedUserName: placedUserName,
             acceptedUserID: null,
             acceptedUserName: null,
-        };
-        await newOrderRef.set(orderData); // Set the data for the order document
-        await addToPlacedOrders(uid, orderID);
-    };
+            location: location,
+          };
+      
+          await newOrderRef.set(orderData);
+          await addToPlacedOrders(uid, orderID);
+        } else {
+          console.log('User document does not exist.');
+        }
+      };
+      
     const [storeName, setStoreName] = useState("nothing");
     const [priceOfItem, setPriceOfItem] = useState(null);
     const [address, setAddress] = useState(null);
     const [overallRating, setOverallRating] = useState(null);
-    const { storeID, imageURLOfFoodItem } = route.params;
+    //assumes that the parameters passed to the screen include these two keys
+    const {storeID, imageURLOfFoodItem} = route.params;
     const [result, setResult] = useState(null);
 
 
@@ -83,7 +97,7 @@ const ConfirmOrderScreen = ({ route }) => {
                     createOrder();
                     navigation.navigate('Orders');
                 }}>
-                <Text>PLACE ORDER</Text>
+                <Text>Confirm Order</Text>
             </TouchableOpacity>
         </View>
     );
@@ -145,9 +159,7 @@ const styles = StyleSheet.create({
     }
 });
 
-
 export default ConfirmOrderScreen;
-
 
 
 /**

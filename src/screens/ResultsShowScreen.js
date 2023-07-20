@@ -3,10 +3,11 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react
 import yelp from '../api/yelp';
 import { useNavigation } from '@react-navigation/native';
 
+//route == { id: item.id }
 const ResultShowScreen = ({ route }) => {
   const navigation = useNavigation();
   const [result, setResult] = useState(null);
-
+//extract the id parameter from route.params
   const { id } = route.params;
 
   const getResult = async (id) => {
@@ -14,6 +15,8 @@ const ResultShowScreen = ({ route }) => {
     setResult(response.data);
   };
 
+//useEffect(function, dependency)
+//empty dependency array [] ensures that the effect runs only once after the initial render.
   useEffect(() => {
     getResult(id);
   }, []);

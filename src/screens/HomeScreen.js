@@ -1,26 +1,26 @@
 import React, {useState}  from "react";
-import { Text, StyleSheet, View, ScrollView} from "react-native";
+import { Text, StyleSheet, ScrollView} from "react-native";
 import {useNavigation, useFocusEffect } from '@react-navigation/native';
-import ProfileScreen from "./ProfileScreen";
 import SearchBar from '../components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultsList from '../components/ResultsList';
 
-
-
-
 const HomeScreen = function() {
+  //useNavigation() is used to obtain the navigation object, which allows navigation between screens in a React Navigation stack.
   const navigation = useNavigation();
   // Update header title when the screen is focused
   useFocusEffect(
     React.useCallback(() => {
       navigation.setOptions({
-        headerTitle: 'Dabao Mode -- Place Orders!',
+        headerTitle: 'Dabao Mode: Place Orders!',
         headerTitleStyle: styles.headerTitle, // Apply custom styling to header title
       });
     }, [navigation])
   );
+
+  //const [state, setState] = useState(initialValue);
   const[term, setTerm] = useState('');
+  //declaring 3 variables. These variables can now be used within the HomeScreen component. 
   const[searchApi, results, errorMessage] = useResults();
 
   const filterResultsByPrice = (price) => {
@@ -38,9 +38,9 @@ const HomeScreen = function() {
       {errorMessage ? <Text>{errorMessage}</Text> : null}
       
       <ScrollView>
-      <ResultsList results={filterResultsByPrice('$')} title="Cost Effective" />
-      <ResultsList results={filterResultsByPrice('$$')} title="Bit Pricier" />
-      <ResultsList results={filterResultsByPrice('$$$')} title="Big Spender"/>
+      <ResultsList results={filterResultsByPrice('$')} title="Cost Effective ($2.50)" />
+      <ResultsList results={filterResultsByPrice('$$')} title="Bit Pricier ($5)" />
+      <ResultsList results={filterResultsByPrice('$$$')} title="Big Spender ($7.50)"/>
       </ScrollView>
   </>
 };

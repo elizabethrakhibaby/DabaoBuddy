@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, FlatList, TouchableOpacity, Image } from "react-native";
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { auth, firestore } from './firebase';
+import { firestore } from './firebase';
 import { getNameOfLoggedInUser, getIDOfLoggedInUser, addToAcceptedOrders, increaseEarnings, increaseExpenditure } from '../utils';
 
 
@@ -11,7 +11,7 @@ const BuddyScreen = function () {
   //Change default header of BuddyScreen from Buddy to Buddy Mode -- Accept Orders!
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: 'Buddy Mode -- Accept Orders!',
+      headerTitle: 'Buddy Mode: Accept Orders!',
       headerTitleStyle: styles.headerTitle,
     });
   }, [navigation]);
@@ -20,9 +20,7 @@ const BuddyScreen = function () {
   const isFocused = useIsFocused();
   const [ordersData, setOrdersData] = useState([]);
 
-  //enable re-rendering of screen whenever the the user goes to BuddyScreen as 
-  //there would be a change in data after an order is accepted
-
+  //enable re-rendering of screen whenever the the user goes to BuddyScreen  
   useEffect(() => {
     fetchOrderData();
   }, [isFocused]);
@@ -31,30 +29,24 @@ const BuddyScreen = function () {
     try {
       const querySnapshot = await firestore.collection('orderList').get();
       const dataOfAllOrders = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
+        ...doc.data(),id: doc.id,
       }));
       //console.log(dataOfAllOrders);
-
+      //The state will be set to the array of objects representing the placed orders.
       setOrdersData(dataOfAllOrders);
     } catch (error) {
       console.error('Error fetching data of all placed orders:', error);
     }
   };
 
-
-
-
   const confirmOrderAcceptance = async (item) => {
     try {
-
       const orderRef = firestore.collection('orderList').doc(item.id);
       const orderID = orderRef.id
       await orderRef.update({
         acceptedUserName: loggedInUserName,
         acceptedUserID: loggedInUserID,
       });
-
       console.log('Order acceptance confirmed:', item);
       // Immediately refresh the data
       fetchOrderData();
@@ -110,9 +102,7 @@ const BuddyScreen = function () {
   }, []);
   /** Retrieve loggedInUserName */
 
-
-  const renderItem = ({ item }) => {
-    /** 
+ /** 
      * Filter condition is applied to ensure that only orders placed by OTHER users are shown on buddy screen
      * This is to prevent a user from accidentally accepting their OWN order
      * item.placedUserID != loggedInUserID
@@ -121,6 +111,7 @@ const BuddyScreen = function () {
      * This is to prevent a user from accepting an order that was already accepted by another user
      * item.acceptedUserID == null
      * */
+  const renderItem = ({ item }) => {
     if (item.placedUserID != loggedInUserID && item.acceptedUserID == null) {
       return (
         <View style={styles.singleOrder}>
@@ -141,7 +132,6 @@ const BuddyScreen = function () {
     }
   };
 
-
   return (
     <View>
       <Text style={styles.textStyle}>Orders placed by other users are reflected on this screen. Help someone today and be a Buddy!</Text>
@@ -150,8 +140,6 @@ const BuddyScreen = function () {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
-
-
     </View>
   );
 };
