@@ -1,15 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View, FlatList, Image, ScrollView, Button } from "react-native";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getIDOfLoggedInUser, removeFromPlacedOrders, removeFromAcceptedOrders } from "../utils";
 import { firestore } from "./firebase";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import DirectMessenger from "./DirectMessengerScreen";
+
+//orderId => INDIVIDUAL document reference number of 'orderList'
 
 const OrdersScreen = function () {
   const isFocused = useIsFocused();
   const [placedOrdersData, setPlacedOrdersData] = useState([]);
   const [acceptedOrdersData, setAcceptedOrdersData] = useState([]);
   const [orderData, setOrderData] = useState([]);
+
+  const navigation = useNavigation();
+
+  const handleContactPress = async (orderId) => {
+    console.log('orderId:', orderId);
+    try {
+      // Fetch the order document from Firestore using the orderId
+      const orderRef = firestore.collection('orderList').doc(orderId);
+      const orderSnapshot = await orderRef.get();
+
+      if (orderSnapshot.exists) {
+        // Order document exists, navigate to the "MessengerScreen"
+        navigation.navigate('Messenger', { orderId: orderId });
+        console.log('Successfully navigated to Messaging Screen','orderId:', orderId );
+      } else {
+        console.log('Order does not exist in Firestore.');
+      }
+    } catch (error) {
+      console.error('Error fetching order:', error);
+    }
+  };
 
   useEffect(() => {
     let isUnmounted = false;
@@ -91,7 +115,14 @@ const OrdersScreen = function () {
         <Text>{item ? "Store name: " + item.storeName : "lol"}</Text>
         <Text>{item ? "Delivery Location: " + item.location : "lol"}</Text>
         <Image style={styles.image} source={{ uri: item.imageURLOfFoodItem }} />
-        <Button title="Done" onPress={handleRemoveItem} />
+        <TouchableOpacity style={styles.touchableOpacityStyle} onPress={() => handleContactPress(item?.id)}>
+  <Text>Contact</Text>
+</TouchableOpacity>
+
+        <Text> </Text>
+        <TouchableOpacity style={styles.touchableOpacityStyle} onPress={handleRemoveItem}>
+          <Text>Done</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -120,11 +151,14 @@ const OrdersScreen = function () {
         <Text>{item ? "Delivery Location: " + item.location : "lol"}</Text>
         <Text>{item ? "Store name: " + item.storeName : "lol"}</Text>
         <Image style={styles.image} source={{ uri: item.imageURLOfFoodItem }} />
-        <TouchableOpacity >
-          <Text>Contact</Text>
+        <TouchableOpacity style={styles.touchableOpacityStyle} onPress={() => handleContactPress(item?.id)}>
+  <Text>Contact</Text>
+</TouchableOpacity>
 
+        <Text> </Text>
+        <TouchableOpacity style={styles.touchableOpacityStyle} onPress={handleRemoveItem}>
+          <Text>Done</Text>
         </TouchableOpacity>
-        <Button title="Done" onPress={handleRemoveItem} />
       </View>
     );
   };
@@ -181,6 +215,11 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100
+  },
+  touchableOpacityStyle: {
+    backgroundColor: '#E2E0FC',
+    padding: 10,
+    borderRadius: 5,
   }
 });
 

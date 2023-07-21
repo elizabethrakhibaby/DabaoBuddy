@@ -1,35 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, View, TextInput, Button, FlatList } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, TextInput, Button, StyleSheet } from 'react-native';
 import { firestore } from "./firebase";
+import { useRoute } from '@react-navigation/native';
 
 const MessengerScreen = function() {
+  const route = useRoute();
+  const { orderId } = route.params;
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState('');
 
   useEffect(() => {
-    // Set up Firestore collection reference
-    const messagesRef = firestore.collection('messages');
-
-    // Fetch messages from Firestore
-    const unsubscribe = messagesRef.orderBy('timestamp').onSnapshot(snapshot => {
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setMessages(data);
-    });
-
-    // Clean up the listener when component unmounts
+    const messagesRef = firestore.collection('messages').where('orderId', '==', orderId);
+  
+    const unsubscribe = messagesRef.orderBy('timestamp').onSnapshot(
+      snapshot => {
+        const data = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setMessages(data);
+      },
+      error => {
+        console.error('Error fetching messages:', error);
+        // You can handle the error here, e.g., show an error message to the user.
+      }
+    );
+  
     return () => unsubscribe();
-  }, []);
-
+  }, [orderId]);
+  
   const sendMessage = async () => {
     if (messageText.trim() !== '') {
       try {
         const messagesRef = firestore.collection('messages');
         await messagesRef.add({
           text: messageText,
-          timestamp: new Date()
+          timestamp: new Date(),
+          orderId: orderId, // Add the orderList ID to each message for reference
         });
         setMessageText('');
       } catch (error) {
@@ -39,7 +46,7 @@ const MessengerScreen = function() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <FlatList
         data={messages}
         keyExtractor={item => item.id}
@@ -75,6 +82,7 @@ const styles = StyleSheet.create({
   },
   messageText: {
     fontSize: 16,
+
   },
   timestamp: {
     fontSize: 12,
@@ -97,3 +105,6 @@ const styles = StyleSheet.create({
 });
 
 export default MessengerScreen;
+
+
+
