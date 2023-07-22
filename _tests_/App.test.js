@@ -6,7 +6,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 
-import App from './App';
+import App from '../App';
 
 describe('<App />', () => {
   it('has 1 child', () => {
