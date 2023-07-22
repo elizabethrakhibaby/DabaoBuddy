@@ -4,7 +4,7 @@ import { useIsFocused, useNavigation, useFocusEffect } from '@react-navigation/n
 import { getIDOfLoggedInUser, removeFromPlacedOrders, removeFromAcceptedOrders } from "../utils";
 import { firestore } from "./firebase";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import DirectMessenger from "./DirectMessengerScreen";
+
 
 //orderId => INDIVIDUAL document reference number of 'orderList'
 
