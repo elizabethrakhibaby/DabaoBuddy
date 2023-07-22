@@ -44,7 +44,7 @@ function LoginStack() {
         name="ConfirmOrder"
         component={ConfirmOrderScreen}
       />
-    
+
 
 
       <Stack.Screen
@@ -63,6 +63,23 @@ function LoginStack() {
         name="ResultsShow"
         component={ResultsShowScreen}
       />
+
+      <Stack.Screen
+        options={({ navigation }) => ({
+          title: 'Chat Now!!!!',
+          headerLeft: () => (
+            <Ionicons
+              name="arrow-back"
+              size={25}
+              color="black"
+              onPress={() => navigation.goBack()}
+              style={{ marginLeft: 15 }}
+            />
+          ),
+        })}
+        name="Messenger"
+        component={MessengerScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -72,7 +89,7 @@ function HomeTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({focused, color}) => {
+        tabBarIcon: ({ focused, color }) => {
           let iconName;
 
           if (route.name === 'Dabao') {
@@ -83,13 +100,10 @@ function HomeTabNavigator() {
             iconName = focused ? 'person' : 'person-outline';
           } else if (route.name === 'Finances') {
             iconName = focused ? 'cash' : 'cash-outline';
-          } else if (route.name === 'Orders') {
+          } else  {
+            //route.name === 'Orders'
             iconName = focused ? 'ios-cart' : 'ios-cart-outline';
-          } else {
-            //messenger
-            iconName = focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline';
-          }
-
+          } 
 
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={25} color={color} />;
@@ -101,7 +115,6 @@ function HomeTabNavigator() {
       <Tab.Screen name="Buddy" component={BuddyScreen} />
       <Tab.Screen name="Finances" component={FinancesScreen} />
       <Tab.Screen name="Orders" component={OrdersScreen} />
-      <Tab.Screen name="Messenger" component={MessengerScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
