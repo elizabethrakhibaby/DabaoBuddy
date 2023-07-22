@@ -5,7 +5,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { alignContent, flex, flexDirection, width } from 'styled-system';
 import { auth } from './firebase';
-//import HomeScreen from './HomeScreen';
 
 function Login() {
   const navigation = useNavigation();

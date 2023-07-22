@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { firestore } from './firebase';
-import ConfirmOrderScreen from './ConfirmOrderScreen';
+import ConfirmOrderScreen from '../src/screens/ConfirmOrderScreen';
 
 // Mock the useNavigation hook to provide a dummy navigation object
 jest.mock('@react-navigation/native', () => ({
