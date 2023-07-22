@@ -3,10 +3,12 @@ name: React Native Test
 on:
   push:
     branches:
-      - main  # Adjust this to your main branch name
+      - main  
+      
   pull_request:
     branches:
-      - main  # Adjust this to your main branch name
+      - main  
+      
 
 jobs:
   test:
@@ -20,16 +22,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Adjust the version based on your project requirements
+          node-version: '14'  
 
       - name: Install dependencies
         run: npm install
 
       - name: Build Android
-        run: npx react-native run-android --no-jetifier --no-hermes
+        run: npx react-native run-android
 
       - name: Build iOS
-        run: npx react-native run-ios --no-jetifier --no-hermes
+        run: npx react-native run-ios
 
       - name: Run tests
-        run: npm test  # Replace with your test command if you have a different setup
+        run: npm test  
