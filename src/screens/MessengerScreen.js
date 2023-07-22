@@ -1,46 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TextInput, Button, StyleSheet, KeyboardAvoidingView, Platform  } from 'react-native';
+import { View, Text, FlatList, TextInput, Button, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { firestore } from "./firebase";
-import { useRoute } from '@react-navigation/native';
+import { getNameOfLoggedInUser } from "../utils";
 
-
-const MessengerScreen = function({route}) {
+const MessengerScreen = function ({ route }) {
   const { orderId } = route.params;
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState('');
+  const [loggedInUserName, setLoggedInUserName] = useState('');
 
   useEffect(() => {
     // Set up Firestore collection reference for the specific orderList ID
     const messagesRef = firestore.collection('messages').where('orderId', '==', orderId);
-
+  
     // Fetch messages from Firestore and update the state
     const unsubscribe = messagesRef.orderBy('timestamp').onSnapshot(
       snapshot => {
-        const data = snapshot.docs.map(doc => ({
-          id: doc.id,
-          text: doc.data().text,
-          timestamp: doc.data().timestamp.toDate().toLocaleString() // Convert to formatted string
-        }));
+        const data = snapshot.docs.map(doc => {
+          const messageData = {
+            id: doc.id,
+            text: doc.data().text,
+            timestamp: doc.data().timestamp.toDate().toLocaleString(),
+            senderName: doc.data().senderName,
+          };
+  
+          // Log the data being received from Firestore
+          console.log('Received data from Firestore:', messageData);
+  
+          return messageData;
+        });
         setMessages(data);
       },
       error => {
         console.error('Error fetching messages:', error);
       }
     );
-
+  
     // Clean up the listener when component unmounts
     return () => unsubscribe();
   }, [orderId]);
+  
+
+  useEffect(() => {
+    fetchLoggedInUserName();
+  }, []);
+
+
+  const fetchLoggedInUserName = async () => {
+    try {
+      const name = await getNameOfLoggedInUser();
+      setLoggedInUserName(name);
+      console.log(loggedInUserName)
+    } catch (error) {
+      console.error('Error fetching logged-in user Name:', error);
+    }
+  };
 
   const sendMessage = async () => {
     if (messageText.trim() !== '') {
       try {
         const messagesRef = firestore.collection('messages');
-        await messagesRef.add({
+        const messageData = {
           text: messageText,
           timestamp: new Date(),
-          orderId: orderId, // Add the orderList ID to each message for reference
-        });
+          orderId: orderId,
+          senderName: loggedInUserName,
+        };
+        console.log('messageData:', messageData);
+        console.log('name:', messageData.senderName); // Log the message data
+        await messagesRef.add(messageData);
         setMessageText('');
       } catch (error) {
         console.error('Error sending message:', error);
@@ -48,6 +76,10 @@ const MessengerScreen = function({route}) {
       }
     }
   };
+  
+  
+  
+  
 
   return (
     <View style={styles.container}>
@@ -56,6 +88,7 @@ const MessengerScreen = function({route}) {
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <View style={styles.messageContainer}>
+            <Text style={styles.senderName}>{item.senderName}:</Text>
             <Text style={styles.messageText}>{item.text}</Text>
             <Text style={styles.timestamp}>{item.timestamp}</Text>
           </View>
@@ -87,6 +120,10 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
     borderRadius: 5,
+  },
+  senderName: {
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   messageText: {
     fontSize: 16,
