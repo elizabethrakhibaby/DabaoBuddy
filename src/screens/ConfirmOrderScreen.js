@@ -22,7 +22,7 @@ const ConfirmOrderScreen = ({ route }) => {
         if (userSnapshot.exists) {
           const userData = userSnapshot.data();
           const placedUserName = userData.name;
-          const location = userData.location;
+          const location = userData.location || "Location unspecified";
       
           const orderData = {
             address: address,
