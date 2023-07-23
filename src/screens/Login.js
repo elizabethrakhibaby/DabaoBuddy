@@ -68,7 +68,6 @@ const handleLogin = () => {
       <Text>LOGIN</Text>
     </Button>
       </View>
-      
       <Image source={require('../../assets/icon.jpg')} style={styles.icon} />
       <Image source={require('../../assets/NUS.jpeg')} style={styles.logo} />
     </View>

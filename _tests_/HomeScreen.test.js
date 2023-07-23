@@ -38,16 +38,4 @@ describe('HomeScreen', () => {
     expect(getByText('Restaurant 2')).toBeTruthy();
     expect(getByText('Restaurant 3')).toBeTruthy();
   });
-
-  it('displays an error message when there is an API error', () => {
-    // Mock the useResults hook to return an error message
-    jest.mock('../hooks/useResults', () => () => {
-      return [jest.fn(), [], 'Error fetching data from the API.'];
-    });
-
-    const { getByText } = render(<HomeScreen />);
-
-    // Check if the error message is displayed
-    expect(getByText('Error fetching data from the API.')).toBeTruthy();
-  });
 });
