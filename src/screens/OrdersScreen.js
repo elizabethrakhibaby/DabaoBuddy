@@ -4,6 +4,8 @@ import { useIsFocused, useNavigation, useFocusEffect } from '@react-navigation/n
 import { getIDOfLoggedInUser, removeFromPlacedOrders, removeFromAcceptedOrders } from "../utils";
 import { firestore } from "./firebase";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Alert } from "react-native";
+
 
 
 //orderId => INDIVIDUAL document reference number of 'orderList'
@@ -97,18 +99,34 @@ const OrdersScreen = function () {
   const renderItemPO = ({ item }) => {
     const handleRemoveItem = async () => {
       try {
-        console.log("tryna remove");
-        // Remove the order from Firestore by calling the removeFromPlacedOrders function
-        const uid = await getIDOfLoggedInUser()
-        await removeFromPlacedOrders(uid, item?.id); // Replace "userId" with the actual user ID of the current user
-
-        // Update the local state to remove the order from placedOrdersData
-        const updatedOrdersData = placedOrdersData.filter((orderId) => orderId !== item?.id);
-        setPlacedOrdersData(updatedOrdersData);
+        Alert.alert(
+          "Confirmation",
+          "Upon clicking Done you will no longer have access to the chat. Are you sure you want to proceed?",
+          [
+            {
+              text: "Cancel",
+              style: "cancel",
+            },
+            {
+              text: "OK",
+              onPress: async () => {
+                console.log("tryna remove");
+                // Remove the order from Firestore by calling the removeFromPlacedOrders function
+                const uid = await getIDOfLoggedInUser()
+                await removeFromPlacedOrders(uid, item?.id); // Replace "userId" with the actual user ID of the current user
+  
+                // Update the local state to remove the order from placedOrdersData
+                const updatedOrdersData = placedOrdersData.filter((orderId) => orderId !== item?.id);
+                setPlacedOrdersData(updatedOrdersData);
+              },
+            },
+          ]
+        );
       } catch (error) {
         console.error('Error removing order:', error);
       }
     };
+  
 
     return (
       <View style={styles.boxStylePO}>
@@ -132,14 +150,29 @@ const OrdersScreen = function () {
   const renderItemAO = ({ item }) => {
     const handleRemoveItem = async () => {
       try {
-        console.log("tryna remove");
-        // Remove the order from Firestore by calling the removeFromPlacedOrders function
-        const uid = await getIDOfLoggedInUser()
-        await removeFromAcceptedOrders(uid, item?.id); // Replace "userId" with the actual user ID of the current user
-
-        // Update the local state to remove the order from placedOrdersData
-        const updatedOrdersData = acceptedOrdersData.filter((orderId) => orderId !== item?.id);
-        setAcceptedOrdersData(updatedOrdersData);
+        Alert.alert(
+          "Confirmation",
+          "Upon clicking Done you will no longer have access to the chat. Are you sure you want to proceed?",
+          [
+            {
+              text: "Cancel",
+              style: "cancel",
+            },
+            {
+              text: "OK",
+              onPress: async () => {
+                console.log("tryna remove");
+                // Remove the order from Firestore by calling the removeFromAcceptedOrders function
+                const uid = await getIDOfLoggedInUser()
+                await removeFromAcceptedOrders(uid, item?.id); // Replace "userId" with the actual user ID of the current user
+  
+                // Update the local state to remove the order from acceptedOrdersData
+                const updatedOrdersData = acceptedOrdersData.filter((orderId) => orderId !== item?.id);
+                setAcceptedOrdersData(updatedOrdersData);
+              },
+            },
+          ]
+        );
       } catch (error) {
         console.error('Error removing order:', error);
       }
