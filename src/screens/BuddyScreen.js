@@ -148,11 +148,10 @@ const BuddyScreen = function () {
 
 const styles = StyleSheet.create({
   acceptOrderButton: {
-    borderWidth: 2,
-    borderColor: "purple",
+    borderWidth: 1,
     padding: 5,
     margin: 5,
-    backgroundColor: "#f1f7b5"
+    backgroundColor: "#77DD77"
   },
   boldText: {
     fontWeight: 'bold',
@@ -175,7 +174,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   singleOrder: {
-    backgroundColor: "#AEC6CF",
+    backgroundColor: "#f1f7b5",
     borderWidth: 2,
     borderRadius: 25,
     padding: 20,

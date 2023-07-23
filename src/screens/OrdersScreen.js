@@ -130,17 +130,22 @@ const OrdersScreen = function () {
 
     return (
       <View style={styles.boxStylePO}>
-        <Text>{item ? "Store name: " + item.storeName : "lol"}</Text>
-        <Text>{item ? "Delivery Location: " + item.location : "lol"}</Text>
-        <Image style={styles.image} source={{ uri: item.imageURLOfFoodItem }} />
-        <TouchableOpacity style={styles.touchableOpacityStyle} onPress={() => handleContactPress(item?.id)}>
-  <Text>Contact</Text>
-</TouchableOpacity>
-
-        <Text> </Text>
-        <TouchableOpacity style={styles.touchableOpacityStyle} onPress={handleRemoveItem}>
-          <Text>Done</Text>
-        </TouchableOpacity>
+        {/* Place text elements above the image */}
+        <View style={styles.textContainer}>
+          <Text>{item ? "Store name: " + item.storeName : "lol"}</Text>
+          <Text>{item ? "Delivery Location: " + item.location : "lol"}</Text>
+        </View>
+        {/* Wrap image and buttons in a container with flexDirection: 'row' */}
+        <View style={styles.container}>
+          <Image style={styles.image} source={{ uri: item.imageURLOfFoodItem }} />
+          {/* Buttons are now placed beside the image */}
+          <TouchableOpacity style={styles.touchableOpacityStylePO} onPress={() => handleContactPress(item?.id)}>
+            <Text>Contact</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.touchableOpacityStylePO} onPress={handleRemoveItem}>
+            <Text>Done</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -180,18 +185,23 @@ const OrdersScreen = function () {
 
     return (
       <View style={styles.boxStyleAO}>
-        <Text>{item ? "Being a buddy to: " + item.placedUserName : ""}</Text>
-        <Text>{item ? "Delivery Location: " + item.location : "lol"}</Text>
-        <Text>{item ? "Store name: " + item.storeName : "lol"}</Text>
-        <Image style={styles.image} source={{ uri: item.imageURLOfFoodItem }} />
-        <TouchableOpacity style={styles.touchableOpacityStyle} onPress={() => handleContactPress(item?.id)}>
-  <Text>Contact</Text>
-</TouchableOpacity>
-
-        <Text> </Text>
-        <TouchableOpacity style={styles.touchableOpacityStyle} onPress={handleRemoveItem}>
-          <Text>Done</Text>
-        </TouchableOpacity>
+        {/* Place text elements above the image */}
+        <View style={styles.textContainer}>
+          <Text>{item ? "Being a buddy to: " + item.placedUserName : ""}</Text>
+          <Text>{item ? "Delivery Location: " + item.location : "lol"}</Text>
+          <Text>{item ? "Store name: " + item.storeName : "lol"}</Text>
+        </View>
+        {/* Wrap image and buttons in a container with flexDirection: 'row' */}
+        <View style={styles.container}>
+          <Image style={styles.image} source={{ uri: item.imageURLOfFoodItem }} />
+          {/* Buttons are now placed beside the image */}
+          <TouchableOpacity style={styles.touchableOpacityStyleAO} onPress={() => handleContactPress(item?.id)}>
+            <Text>Contact</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.touchableOpacityStyleAO} onPress={handleRemoveItem}>
+            <Text>Done</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -222,9 +232,10 @@ const OrdersScreen = function () {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 200,
-    marginLeft: 100
+    alignItems: 'center', // Align items vertically in the center
+    justifyContent: 'space-between', // Spread items horizontally with equal space
+    paddingHorizontal: 10, // Add horizontal padding to create space between image and buttons
+    marginBottom: 10, // Add margin at the bottom to separate each item
   },
   leftText: {
     textAlign: 'left',
@@ -236,24 +247,30 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   boxStyleAO: {
-    borderWidth: 2,
+    borderWidth: 1,
     backgroundColor: "#f1f7b5",
-    padding: 10
+    padding: 5,
   },
   boxStylePO: {
-    borderWidth: 2,
-    backgroundColor: "#AEC6CF",
-    padding: 10
+    borderWidth: 1,
+    backgroundColor: "#D5E3F0",
+    padding: 5,
   },
   image: {
     width: 100,
-    height: 100
+    height: 100,
+    marginRight: 10, // Add margin to the right of the image to separate it from text
   },
-  touchableOpacityStyle: {
-    backgroundColor: '#E2E0FC',
+  touchableOpacityStyleAO: {
+    backgroundColor: '#D5E3F0',
     padding: 10,
     borderRadius: 5,
-  }
+  },
+  touchableOpacityStylePO: {
+    backgroundColor: '#f1f7b5',
+    padding: 10,
+    borderRadius: 5,
+  },
 });
 
 export default OrdersScreen;

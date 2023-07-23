@@ -54,7 +54,7 @@ const FinancesScreen = function () {
 
 
   return (
-    <View style={{ backgroundColor: "#FDDB62", flex: 1 }}>
+    <View style={{ backgroundColor: "#D5E3F0", flex: 1 }}>
       <Text style={styles.pageTitle}> Finance Tracker</Text>
       <View style={styles.graphWrapper}>
         <Svg height="270" width="270" viewBox="0 0 180 180">
