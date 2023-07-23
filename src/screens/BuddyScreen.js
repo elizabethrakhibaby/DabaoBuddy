@@ -119,6 +119,8 @@ const BuddyScreen = function () {
           <View style={styles.orderDetails}>
             <Text style={styles.boldText}>Takeaway from: </Text>
             <Text> {item.storeName}</Text>
+            <Text style={styles.boldText}>Deliver to: </Text>
+            <Text> {item.location}</Text>
             <Text> <Text style={styles.boldText}>Earn: </Text>$ {item.priceOfItem}</Text>
             <TouchableOpacity style={styles.acceptOrderButton} onPress={() => confirmOrderAcceptance(item)}>
               <Text>ACCEPT ORDER</Text>
