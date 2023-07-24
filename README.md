@@ -88,69 +88,54 @@ With that, our solution seeks to bridge the gap in the needs of both parties afo
   </ol>
 </details>
 <hr>
-Proposed core features:
 
- <ol>
-    <li>Startup landing page: Splash screen</li>
-    <li>Authentication Page</li>
-    <li>Signup</li>
-    <ol type="a">
-       <li>Only NUS Students are able to sign up as only NUS emails are valid upon registration. Eg. JohnDoe@u.nus.edu. Otherwise error occurs. </li>
-       <li>Password & Confirm Password: Caps sensitive, both input must be equivalent. Otherwise error occurs. </li>
-    </ol>
-    <li>Home Page (Dabao)</li>
-    <ol type="a">
-       <li>Purpose: Order food. </li>
-       <li>Default home page with lists of available restaurants. </li>
-       <li>Search function to filter specific wants of users. Click on the respective restaurant to be shown the available options.. </li>
-    </ol> 
-    <li>Buddy Page</li>
-    <ol type="a">
-       <li>Purpose: Offer to help dabao </li>
-       <li>Accept requests </li>
-    </ol> 
-    <li>Finance Page</li>
-    <ol type="a">
-       <li>Track earnings and expenditure </li>
-       <li>Financial data will be reflected on the dynamic donut pie chart and accompanying two boxes that reflect specific numerical values </li>
-    </ol>  
-    <li>Orders Page</li>
-        <ol type="a">
-       <li>View order history </li>
-       <li>List of orders placed  </li>
-           <li>List of orders accepted  </li>
-    </ol>  
-     <li>Messenger Page</li>
-    <ol type="a">
-       <li>Communication between dabao and buddy users. </li>
-       <li>Store chat history. </li>
-    </ol>  
-    <li>Profile Page</li>
-    <ol type="a">
-       <li>Displays email used to register </li>
-       <li>Displays preferred name to be addressed by </li>
-       <li>Logout: Redirected to the login page.  </li>
-    </ol>  
- </ol>
+# Overview of Features
 
-<hr>
-The first screen users view after clicking the app icon is known as a splash screen. This screen, which will consist of our app logo, will disappear once when the app is ready to launch. 
+## Startup Landing Page
+Splash screen with Dabao Buddy logo
 
-After the splash screen, the app will navigate users to the login screen, where they are prompted to enter username and password. If the user is unregistered, a TouchableOpacity element within the login page can be pressed to navigate him to the registration screen. After the user clicks “SIGN UP”, he will be navigated to the login page once again. Once a user enters the correct username and password, upon clicking “LOGIN”, he will be navigated to the home screen.
+## Authentication Pages
+### Login Page
+Our app utilises Firebase Authentication SDK for email and password verification. If the provided email is a valid NUS email, the user is redirected to the Home Page; otherwise, an error message is displayed. Passwords are case-sensitive, ensuring secure authentication.
 
-When a user enters the home page, a bottom tap navigator will be visible. This navigator allows the user to seamlessly toggle between Home, Finances, Orders, Messenger and Profile screens.
+Pop-up Notification
 
-The home screen allows the user to search for their cravings and place an order.
+### Signup Page
+- Email: Only NUS Students are able to sign up as there is a check to ensure that only NUS emails can be used for registration. Eg. JohnDoe@u.nus.edu. Otherwise, an error message is displayed.
+- Password & Confirm Password: Caps sensitive, both input must be equivalent. Otherwise, an error message is displayed.
 
-The finances screen allows the user to track their earnings (money earned when they were in “Buddy” mode) and their expenditure (money spent when they were in “Dabao” mode”).
+Pop-up Notification
 
-The orders screen allows the user to track the status of a user’s placed orders. The status can be Pending, Accepted, Delivering or Delivered.
+## Home Page (Dabao)
+Purpose: Search and place an order for food.
 
-The buddy screen allows user to reject/accept pending requests for dabaos.
+- Default home page shows a list of available restaurants, based on the default search keyword of "pasta."
+- There is a search function, enabling users to input keywords and filter restaurant results based on their preferences. Clicking on a specific restaurant reveals the available menu items of that restaurant to the user.
 
-The messenger screen allows the user to communicate with the user at the other end of an accepted order. For example, if a user is in “Buddy” mode, he will be able to message the other “Dabao” user who placed the order. Conversely, if a user is in “Dabao” mode, he will be able to message the other “Buddy” user who is helping to takeaway and deliver the order.
+## Buddy Page
+Purpose: View available orders and accept order (dabao).
 
-The profile screen allows the user to view and edit his personal particulars. Users are also able to logout from the profile screen. 
+Upon clicking on "Accept Order," the Buddy Page is re-rendered, causing that order to disappear from view.
+
+## Finance Page
+Track earnings and expenditure.
+
+Financial data will be reflected on the dynamic donut pie chart and accompanying two boxes that reflect specific numerical values.
+
+## Orders Page
+View order history.
+
+- List of orders placed.
+- List of orders accepted.
+- Communicate live with the user at the other end of a placed/accepted order.
+- Feature to mark the order as done.
+
+Pop-up Notification
+
+## Profile Page
+- Displays email used to register.
+- Displays preferred name to be addressed by.
+
 
 Disclaimer: For the purposes of testing app features, instead of NUS food menu items, tagged menu items of restaurants are shown instead. This data is obtained through the integration of Yelp API in DabaoBuddy. 
 
