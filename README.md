@@ -1,5 +1,9 @@
 # DabaoBuddy
 
+[Project Poster](https://drive.google.com/file/d/1RI9s0aSEmzOZDy1GF3sfXYO1nZkH6nYa/view)
+
+[Project Video](https://drive.google.com/file/d/1ppKNNM8FqufivP9MfUZqDR3-ZQsmsyn9/view)
+
 [Project Report](https://docs.google.com/document/d/132meZLwkp9i0_rPOYy8ekMwSC7W39CLt5qaOEGl8-UQ/edit)
 
 [Project Log](https://docs.google.com/spreadsheets/d/1v6nRypsq30viSB18fagijehkkoAgrSnH8kn1lzVSbrM/edit#gid=0)
