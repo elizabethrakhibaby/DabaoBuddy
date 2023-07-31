@@ -134,10 +134,15 @@ View order history.
 
 - List of orders placed.
 - List of orders accepted.
-- Communicate live with the user at the other end of a placed/accepted order.
-- Feature to mark the order as done.
+- Feature to mark an order as done
+- Pop-up Notification when user marks an order as done
 
-Pop-up Notification
+## Messaging Page
+Communicate live with the user at the other end of a placed/accepted order.
+
+- Click on a specific order within Orders page to be brought to Messaging Page.
+- Hence, messaging page is accessed via/navigated from Orders Page.
+- Timestamp and user name tagged to every message.
 
 ## Profile Page
 - Displays email used to register.
